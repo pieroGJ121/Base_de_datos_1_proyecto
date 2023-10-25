@@ -2,17 +2,13 @@ import psycopg2
 import random
 
 conn = psycopg2.connect(
-    database="",
-    user="",
-    password="",
-    host="",
-    port="5432",
-    options="-c search_path="
-    )
+    database="", user="", password="", host="", port="5432", options="-c search_path="
+)
 
 cursor = conn.cursor()
 
 conn.autocommit = True
+
 
 def generate_turno(n):
     i = 0
@@ -20,11 +16,14 @@ def generate_turno(n):
         cursor.execute("SELECT dni FROM trabajador;")
         res = cursor.fetchall()
         dni = random.choice(res)[0]
-        dia = random.choice(['L', 'M', 'X', 'J', 'V', 'S', 'D'])
+        dia = random.choice(["L", "M", "X", "J", "V", "S", "D"])
         hora_entrada = random.randint(6, 9)
         hora_salida = random.randint(18, 24)
-        cursor.execute(f"INSERT INTO turno(dni, dia, hora_entrada, hora_salida) VALUES ({dni}, {dia}, {hora_entrada}, {hora_salida});")
+        cursor.execute(
+            f"INSERT INTO turno(dni, dia, hora_entrada, hora_salida) VALUES ({dni}, {dia}, {hora_entrada}, {hora_salida});"
+        )
         i += 1
+
 
 def generate_stock(n):
     i = 0
@@ -37,13 +36,18 @@ def generate_stock(n):
             fk = random.choice(res1)
             direccion = random.choice(res2)[0]
             cantidad = random.randint(0, 999)
-            cursor.execute(f"SELECT nombre_producto, medida, direccion FROM stock WHERE nombre_producto='{fk[0]}' AND medida='{fk[1]}' AND direccion='{direccion}'")
+            cursor.execute(
+                f"SELECT nombre_producto, medida, direccion FROM stock WHERE nombre_producto='{fk[0]}' AND medida='{fk[1]}' AND direccion='{direccion}'"
+            )
             if not cursor.fetchone():
-                cursor.execute(f"INSERT INTO stock(nombre_producto, medida, direccion, cantidad) VALUES ('{fk[0]}', '{fk[1]}', '{direccion}', {cantidad});")
+                cursor.execute(
+                    f"INSERT INTO stock(nombre_producto, medida, direccion, cantidad) VALUES ('{fk[0]}', '{fk[1]}', '{direccion}', {cantidad});"
+                )
                 print("successfully inserted", i)
                 i += 1
         except Exception as e:
             print(e, i)
+
 
 def generate_compra_local(n):
     i = 0
@@ -55,10 +59,124 @@ def generate_compra_local(n):
         try:
             correlativo = random.choice(res1)[0]
             fk = random.choice(res2)
-            cursor.execute(f"SELECT correlativo FROM compralocal WHERE correlativo='{correlativo}'")
+            cursor.execute(
+                f"SELECT correlativo FROM compralocal WHERE correlativo='{correlativo}'"
+            )
             if not cursor.fetchone():
-                cursor.execute(f"INSERT INTO compralocal(correlativo, numero, direccion) VALUES ('{correlativo}', '{fk[0]}', '{fk[1]}');")
+                cursor.execute(
+                    f"INSERT INTO compralocal(correlativo, numero, direccion) VALUES ('{correlativo}', '{fk[0]}', '{fk[1]}');"
+                )
                 print("successfully inserted", i + 1)
                 i += 1
         except Exception as e:
             print(e, i)
+
+
+def generate_usuario(n):
+    # Piero
+    i = 0
+
+
+def generate_artista_podcast(n):
+    # Piero
+    i = 0
+
+
+def generate_artista_musical(n):
+    # Jairo
+    i = 0
+
+
+def generate_evento(n):
+    # Jairo
+    i = 0
+
+
+def generate_tiene_evento(n):
+    # Jairo
+    i = 0
+
+
+def generate_red_social(n):
+    # Jairo
+    i = 0
+
+
+def generate_tiene_red_social(n):
+    # Jairo
+    i = 0
+
+
+def generate_playlist(n):
+    # Jairo
+    i = 0
+
+
+def generate_almacena_playlist(n):
+    # Jairo
+    i = 0
+
+
+def generate_favoritos(n):
+    # Piero
+    i = 0
+
+
+def generate_contenido(n):
+    # Piero
+    i = 0
+
+
+def generate_contenido_acumulable(n):
+    # Piero
+    i = 0
+
+
+def generate_cancion(n):
+    # Piero
+    i = 0
+
+
+def generate_album(n):
+    # Jairo
+    i = 0
+
+
+def generate_almacena_album(n):
+    # Jairo
+    i = 0
+
+
+def generate_crea_album(n):
+    # Jairo
+    i = 0
+
+
+def generate_crea_cancion(n):
+    # Jairo
+    i = 0
+
+
+def generate_episodio(n):
+    # Piero
+    i = 0
+
+
+def generate_almacena_temporada(n):
+    # Piero
+    i = 0
+
+
+def generate_temporada(n):
+    # Piero
+    i = 0
+
+
+def generate_podcast(n):
+    # Piero
+    i = 0
+
+
+def generate_participa(n):
+    # Piero
+    i = 0
