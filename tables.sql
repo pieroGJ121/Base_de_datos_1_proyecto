@@ -20,116 +20,119 @@ CREATE TABLE Playlist(
 );
 
 CREATE TABLE Contenido(
-	ID,
-	fechaLanzamiento,
-	lenguaje,
-	nombre,
-	portada
+	ID INT PRIMARY KEY,
+	fechaLanzamiento DATE,
+	lenguaje VARCHAR(30),
+	nombre VARCHAR(50),
+	portada VARCHAR(100)
 );
 
 CREATE TABLE ArtistaMusical(
-	correo_usuario FOREIGN KEY REFERENCES Usuario(correo),
-	genero_musica
+	correo_usuario  VARCHAR(255) FOREIGN KEY REFERENCES Usuario(correo),
+	genero_musica VARCHAR(30)
 );
 
 CREATE TABLE RedSocial(
-	nombre
+	nombre VARCHAR(30) PRIMARY KEY
 );
 
 CREATE TABLE Evento(
-	nombre,
-	fecha,
-	lugar
+	nombre VARCHAR(100) PRIMARY KEY,
+	fecha DATE,
+	lugar VARCHAR(50)	
 );
 
 CREATE TABLE ArtistaPodcast(
-	correo_usuario FOREIGN KEY REFERENCES Usuario(correo)
+	correo_usuario VARCHAR(255) FOREIGN KEY REFERENCES Usuario(correo)
 );
 
+
+
 CREATE TABLE ContenidoAcumulable(
-	ID FOREIGN KEY REFERENCES Contenido(ID),
-	duracion
+	ID INT FOREIGN KEY REFERENCES Contenido(ID),
+	duracion TIME
 );
 
 CREATE TABLE Podcast(
-	nombre,
-	original
+	nombre VARCHAR(30) PRIMARY KEY,
+	original BOOLEAN
 );
 
 CREATE TABLE Temporada(
-	ID FOREIGN KEY REFERENCES Contenido(ID),
-	nombre FOREIGN KEY REFERENCES Podcast(nombre)
+	ID INT FOREIGN KEY REFERENCES Contenido(ID),
+	nombre VARCHAR(30) FOREIGN KEY REFERENCES Podcast(nombre)
 );
 
 CREATE TABLE Album(
-	ID FOREIGN KEY REFERENCES Contenido(ID)
+	ID INT FOREIGN KEY REFERENCES Contenido(ID)
 );
 
 CREATE TABLE Episodio(
-	ID FOREIGN KEY REFERENCES Contenido(ID),
-	nombre FOREIGN KEY REFERENCES Podcast(nombre)
+	ID INT FOREIGN KEY REFERENCES Contenido(ID),
+	nombre VARCHAR(30) FOREIGN KEY REFERENCES Podcast(nombre)
 );
 
 CREATE TABLE Cancion(
-	ID FOREIGN KEY REFERENCES Contenido(ID),
-	genero,
-	letra,
-	compositor
+	ID INT FOREIGN KEY REFERENCES Contenido(ID),
+	genero  VARCHAR(30),
+	letra  VARCHAR(1000),
+	compositor  VARCHAR(30)
 );
 
 CREATE TABLE Favoritos(
-	correo FOREIGN KEY REFERENCES Usuario(correo),
-	ID FOREIGN KEY REFERENCES ContenidoAcumulable(ID)
+	correo VARCHAR(255) FOREIGN KEY REFERENCES Usuario(correo),
+	ID INT FOREIGN KEY REFERENCES ContenidoAcumulable(ID)
 );
 
 CREATE TABLE AlmacenaPlaylist(
-	IDplaylist FOREIGN KEY REFERENCES Playlist(ID),
-	correo FOREIGN KEY REFERENCES Usuario(correo),
-	ID_CA FOREIGN KEY REFERENCES ContenidoAcumulable(ID)
+	IDplaylist INT FOREIGN KEY REFERENCES Playlist(ID),
+	correo VARCHAR(255) FOREIGN KEY REFERENCES Usuario(correo),
+	ID_CA INT FOREIGN KEY REFERENCES ContenidoAcumulable(ID)
 );
 
 CREATE TABLE Participa(
-	correo FOREIGN KEY REFERENCES ArtistaPodcast(correo_usuario)
+	correo VARCHAR(255) FOREIGN KEY REFERENCES ArtistaPodcast(correo_usuario),
+	nombre VARCHAR(30)  FOREING KEY REFERENCES Podcast(Nombre)
 );
 
+
 CREATE TABLE TieneRedes(
-	correo FOREIGN KEY REFERENCES ArtistaPodcast(correo_usuario),
-	ID_RS FOREIGN KEY REFERENCES RedSocial(nombre),
-	username
+	correo VARCHAR(255) FOREIGN KEY REFERENCES ArtistaPodcast(correo_usuario),
+	nombre_Red VARCHAR(30) FOREIGN KEY REFERENCES RedSocial(nombre),
+	username VARCHAR(30)
 );
 
 CREATE TABLE TieneEventos(
-	correo FOREIGN KEY REFERENCES ArtistaPodcast(correo_usuario),
-	nombre FOREIGN KEY REFERENCES Evento(nombre)
+	correo VARCHAR(255) FOREIGN KEY REFERENCES ArtistaPodcast(correo_usuario),
+	nombre VARCHAR(100) FOREIGN KEY REFERENCES Evento(nombre)
 );
 
 CREATE TABLE AlmacenaTemporada(
-	ID_Ep FOREIGN KEY REFERENCES Episodio(ID),
-	ID_Tmp FOREIGN KEY REFERENCES Temporada(ID)
+	ID_Ep INT FOREIGN KEY REFERENCES Episodio(ID),
+	ID_Tmp INT FOREIGN KEY REFERENCES Temporada(ID)
 );
 
 CREATE TABLE AlmacenaAlbum(
-	ID_Cn FOREIGN KEY REFERENCES Cancion(ID),
-	ID_Ab FOREIGN KEY REFERENCES Album(ID)
+	ID_Cn INT FOREIGN KEY REFERENCES Cancion(ID),
+	ID_Ab INT FOREIGN KEY REFERENCES Album(ID)
 );
 
 CREATE TABLE CreaAlbum(
-	correo FOREIGN KEY REFERENCES ArtistaMusical(correo),
-	ID_Ab FOREIGN KEY REFERENCES Album(ID)
+	correo VARCHAR(255) FOREIGN KEY REFERENCES ArtistaMusical(correo),
+	ID_Ab INT FOREIGN KEY REFERENCES Album(ID)
 );
 
 CREATE TABLE CreaCancion(
-	correo FOREIGN KEY REFERENCES ArtistaMusical(correo),
-	ID_Cn FOREIGN KEY REFERENCES Cancion(ID)
+	correo VARCHAR(255) FOREIGN KEY REFERENCES ArtistaMusical(correo),
+	ID_Cn INT FOREIGN KEY REFERENCES Cancion(ID)
 );
 
 CREATE TABLE CreaEpisodio(
-	nombre FOREIGN KEY REFERENCES Podcast(Nombre),
-	ID_Ep FOREIGN KEY REFERENCES Episodio(ID)
+	nombre VARCHAR(30) FOREIGN KEY REFERENCES Podcast(Nombre),
+	ID_Ep INT FOREIGN KEY REFERENCES Episodio(ID)
 );
 
 CREATE TABLE Temporada(
-	nombre FOREIGN KEY REFERENCES Podcast(Nombre),
-	ID_Tmp FOREIGN KEY REFERENCES Temporada(ID)
+	nombre VARCHAR(30) FOREIGN KEY REFERENCES Podcast(Nombre),
+	ID_Tmp INT FOREIGN KEY REFERENCES Temporada(ID)
 );
-
