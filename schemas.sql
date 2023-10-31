@@ -1,0 +1,4 @@
+CREATE SCHEMA cienmil;
+CREATE SCHEMA diezmil;
+CREATE SCHEMA mil;
+CREATE SCHEMA millon;
