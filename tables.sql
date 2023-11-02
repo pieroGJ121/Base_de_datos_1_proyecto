@@ -1,34 +1,38 @@
 -- Creacion de tablas
 
 CREATE TABLE Usuario(
-	correo VARCHAR(15)  PRIMARY KEY,
+	correo VARCHAR(20)  PRIMARY KEY,
 	username VARCHAR(15),
 	contrasenia VARCHAR(10),
-	pais VARCHAR(10),
+	pais VARCHAR(40),
 	fecha_creacion DATE,
 	tipo_suscripcion BOOLEAN
 );
 
 CREATE TABLE Playlist(
 	ID INT PRIMARY KEY,
-	correo_usuario  VARCHAR(15) FOREIGN KEY REFERENCES Usuario(correo),
+	correo VARCHAR(20),
 	fecha_creacion DATE,
 	privacidad BOOLEAN,
 	nombre  VARCHAR(15),
 	descripcion  VARCHAR(40)
 );
+ALTER TABLE playlist ADD CONSTRAINT usuario_fk_correo
+FOREIGN KEY (correo) REFERENCES Usuario (correo);
 
 CREATE TABLE Contenido(
 	ID INT PRIMARY KEY,
 	fechaLanzamiento DATE,
 	lenguaje VARCHAR(10),
-	nombre VARCHAR(15),
+	nombre VARCHAR(15)
 );
 
 CREATE TABLE ArtistaMusical(
-	correo_usuario  VARCHAR(15) FOREIGN KEY REFERENCES Usuario(correo),
+	correo  VARCHAR(20) PRIMARY KEY,
 	genero_musica VARCHAR(10)
 );
+ALTER TABLE ArtistaMusical ADD CONSTRAINT usuario_fk_correo
+FOREIGN KEY (correo) REFERENCES Usuario (correo);
 
 CREATE TABLE RedSocial(
 	nombre VARCHAR(15) PRIMARY KEY
@@ -41,83 +45,131 @@ CREATE TABLE Evento(
 );
 
 CREATE TABLE ArtistaPodcast(
-	correo_usuario VARCHAR(15) FOREIGN KEY REFERENCES Usuario(correo)
+	correo VARCHAR(20) PRIMARY KEY
 );
+ALTER TABLE ArtistaPodcast ADD CONSTRAINT usuario_fk_correo
+FOREIGN KEY (correo) REFERENCES Usuario (correo);
 
 
 CREATE TABLE ContenidoAcumulable(
-	ID INT FOREIGN KEY REFERENCES Contenido(ID),
+	ID INT PRIMARY KEY,
 	duracion TIME
+	FOREIGN KEY (ID) REFERENCES Contenido(ID)
 );
+ALTER TABLE ContenidoAcumulable ADD CONSTRAINT contenido_fk_id
+FOREIGN KEY (ID) REFERENCES Contenido (ID);
 
 CREATE TABLE Podcast(
-	nombre VARCHAR(15) PRIMARY KEY,
+	nombre VARCHAR(20) PRIMARY KEY,
 	original BOOLEAN
 );
 
 CREATE TABLE Album(
-	ID INT FOREIGN KEY REFERENCES Contenido(ID)
+	ID INT PRIMARY KEY
 );
+ALTER TABLE Album ADD CONSTRAINT contenido_fk_id
+FOREIGN KEY (ID) REFERENCES Contenido (ID);
 
 CREATE TABLE Episodio(
-	ID INT FOREIGN KEY REFERENCES Contenido(ID),
-	nombre VARCHAR(15) FOREIGN KEY REFERENCES Podcast(nombre),
-	temporada VARCHAR(15)
+ID INT PRIMARY KEY,
+nombre VARCHAR(20),
+temporada VARCHAR(15)
 );
+ALTER TABLE Episodio ADD CONSTRAINT contenido_fk_id
+FOREIGN KEY (ID) REFERENCES Contenido (ID);
+ALTER TABLE Episodio ADD CONSTRAINT podcast_fk_nombre
+FOREIGN KEY (nombre) REFERENCES Podcast (nombre);
 
 CREATE TABLE Cancion(
-	ID INT FOREIGN KEY REFERENCES Contenido(ID),
+	ID INT PRIMARY KEY,
 	genero  VARCHAR(10),
 	compositor  VARCHAR(15)
 );
+ALTER TABLE Cancion ADD CONSTRAINT contenido_fk_id
+FOREIGN KEY (ID) REFERENCES Contenido (ID);
 
 CREATE TABLE Favoritos(
-	correo VARCHAR(15) FOREIGN KEY REFERENCES Usuario(correo),
-	ID INT FOREIGN KEY REFERENCES ContenidoAcumulable(ID)
+	correo VARCHAR(20) PRIMARY KEY,
+	ID INT PRIMARY KEY
 );
+ALTER TABLE Favoritos ADD CONSTRAINT contenido_fk_id
+FOREIGN KEY (ID) REFERENCES Contenido (ID);
+ALTER TABLE Favoritos ADD CONSTRAINT usuario_fk_correo
+FOREIGN KEY (correo) REFERENCES Usuario (correo);
 
 CREATE TABLE AlmacenaPlaylist(
-	IDplaylist INT FOREIGN KEY REFERENCES Playlist(ID),
-	correo VARCHAR(15) FOREIGN KEY REFERENCES Usuario(correo),
-	ID_CA INT FOREIGN KEY REFERENCES ContenidoAcumulable(ID)
+	IDP INT,
+	IDCA INT
 );
+ALTER TABLE AlmacenaPlaylist ADD CONSTRAINT playlist_fk_id
+FOREIGN KEY (IDP) REFERENCES Playlist (ID);
+ALTER TABLE AlmacenaPlaylist ADD CONSTRAINT ca_fk_id
+FOREIGN KEY (IDCA) REFERENCES ContenidoAcumulable (ID);
 
 CREATE TABLE Participa(
-	correo VARCHAR(15) FOREIGN KEY REFERENCES ArtistaPodcast(correo_usuario),
-	nombre VARCHAR(15)  FOREING KEY REFERENCES Podcast(Nombre)
+	correo VARCHAR(20) PRIMARY KEY,
+	nombre VARCHAR(15) PRIMARY KEY
 );
+ALTER TABLE Participa ADD CONSTRAINT ap_fk_correo
+FOREIGN KEY (correo) REFERENCES ArtistaPodcast (correo);
+ALTER TABLE Participa ADD CONSTRAINT podcast_fk_id
+FOREIGN KEY (nombre) REFERENCES Podcast (nombre);
 
 
 CREATE TABLE TieneRedes(
-	correo VARCHAR(15) FOREIGN KEY REFERENCES ArtistaPodcast(correo_usuario),
-	nombre_Red VARCHAR(10) FOREIGN KEY REFERENCES RedSocial(nombre),
+	correo VARCHAR(20) PRIMARY KEY,
+	nombreRed VARCHAR(10) PRIMARY KEY,
 	username VARCHAR(10)
 );
+ALTER TABLE TieneRedes ADD CONSTRAINT am_fk_correo
+FOREIGN KEY (correo) REFERENCES ArtistaMusical (correo);
+ALTER TABLE TieneRedes ADD CONSTRAINT red_fk_nombre
+FOREIGN KEY (nombreRed) REFERENCES RedSocial (nombre);
 
 CREATE TABLE TieneEventos(
-	correo VARCHAR(15) FOREIGN KEY REFERENCES ArtistaPodcast(correo_usuario),
-	nombre VARCHAR(15) FOREIGN KEY REFERENCES Evento(nombre)
+	correo VARCHAR(20) PRIMARY KEY,
+	nombre VARCHAR(15) PRIMARY KEY
 );
+ALTER TABLE TieneEventos ADD CONSTRAINT am_fk_correo
+FOREIGN KEY (correo) REFERENCES ArtistaMusical (correo);
+ALTER TABLE TieneEventos ADD CONSTRAINT evento_fk_nombre
+FOREIGN KEY (nombre) REFERENCES Evento (nombre);
 
 CREATE TABLE AlmacenaAlbum(
-	ID_Cn INT FOREIGN KEY REFERENCES Cancion(ID),
-	ID_Ab INT FOREIGN KEY REFERENCES Album(ID)
+	IDC INT PRIMARY KEY,
+	IDA INT PRIMARY KEY
 );
+ALTER TABLE AlmacenaAlbum ADD CONSTRAINT cancion_fk_id
+FOREIGN KEY (IDC) REFERENCES Cancion (ID);
+ALTER TABLE AlmacenaAlbum ADD CONSTRAINT album_fk_id
+FOREIGN KEY (IDA) REFERENCES Album (ID);
 
 CREATE TABLE CreaAlbum(
-	correo VARCHAR(15) FOREIGN KEY REFERENCES ArtistaMusical(correo),
-	ID_Ab INT FOREIGN KEY REFERENCES Album(ID)
+	correo VARCHAR(20) PRIMARY KEY,
+	IDA INT PRIMARY KEY
 );
+ALTER TABLE CreaAlbum ADD CONSTRAINT am_fk_correo
+FOREIGN KEY (correo) REFERENCES ArtistaMusical (correo);
+ALTER TABLE CreaAlbum ADD CONSTRAINT album_fk_id
+FOREIGN KEY (IDA) REFERENCES Album (ID);
 
 CREATE TABLE CreaCancion(
-	correo VARCHAR(15) FOREIGN KEY REFERENCES ArtistaMusical(correo),
-	ID_Cn INT FOREIGN KEY REFERENCES Cancion(ID)
+	correo VARCHAR(20) PRIMARY KEY,
+	IDC INT PRIMARY KEY
 );
+ALTER TABLE CreaCancion ADD CONSTRAINT am_fk_correo
+FOREIGN KEY (correo) REFERENCES ArtistaMusical (correo);
+ALTER TABLE CreaCancion ADD CONSTRAINT cancion_fk_id
+FOREIGN KEY (IDC) REFERENCES cancion (ID);
 
 CREATE TABLE CreaEpisodio(
-	nombre VARCHAR(15) FOREIGN KEY REFERENCES Podcast(Nombre),
-	ID_Ep INT FOREIGN KEY REFERENCES Episodio(ID)
+	nombre VARCHAR(15) PRIMARY KEY,
+	IDE INT PRIMARY KEY
 );
+ALTER TABLE CreaEpisodio ADD CONSTRAINT podcast_fk_nombre
+FOREIGN KEY (nombre) REFERENCES Podcast (nombre);
+ALTER TABLE CreaEpisodio ADD CONSTRAINT episodio_fk_id
+FOREIGN KEY (IDE) REFERENCES Episodio (ID);
 
 
 ALTER TABLE Usuario MODIFY COLUMN ID NOT NULL;
