@@ -60,7 +60,8 @@ ALTER TABLE ContenidoAcumulable ADD CONSTRAINT contenido_fk_id
 FOREIGN KEY (ID) REFERENCES Contenido (ID);
 
 CREATE TABLE Podcast(
-	nombre VARCHAR(20) PRIMARY KEY,
+	ID INT PRIMARY KEY,
+	nombre VARCHAR(15),
 	original BOOLEAN
 );
 
@@ -72,13 +73,13 @@ FOREIGN KEY (ID) REFERENCES Contenido (ID);
 
 CREATE TABLE Episodio(
 ID INT PRIMARY KEY,
-nombre VARCHAR(20),
+IDP INT,
 temporada VARCHAR(15)
 );
 ALTER TABLE Episodio ADD CONSTRAINT contenido_fk_id
 FOREIGN KEY (ID) REFERENCES Contenido (ID);
-ALTER TABLE Episodio ADD CONSTRAINT podcast_fk_nombre
-FOREIGN KEY (nombre) REFERENCES Podcast (nombre);
+ALTER TABLE Episodio ADD CONSTRAINT podcast_fk_id
+FOREIGN KEY (IDP) REFERENCES Podcast (ID);
 
 CREATE TABLE Cancion(
 	ID INT PRIMARY KEY,
@@ -108,12 +109,12 @@ FOREIGN KEY (IDCA) REFERENCES ContenidoAcumulable (ID);
 
 CREATE TABLE Participa(
 	correo VARCHAR(20) PRIMARY KEY,
-	nombre VARCHAR(15) PRIMARY KEY
+	IDP INT PRIMARY KEY
 );
 ALTER TABLE Participa ADD CONSTRAINT ap_fk_correo
 FOREIGN KEY (correo) REFERENCES ArtistaPodcast (correo);
 ALTER TABLE Participa ADD CONSTRAINT podcast_fk_id
-FOREIGN KEY (nombre) REFERENCES Podcast (nombre);
+FOREIGN KEY (IDP) REFERENCES Podcast (ID);
 
 
 CREATE TABLE TieneRedes(
@@ -163,11 +164,11 @@ ALTER TABLE CreaCancion ADD CONSTRAINT cancion_fk_id
 FOREIGN KEY (IDC) REFERENCES cancion (ID);
 
 CREATE TABLE CreaEpisodio(
-	nombre VARCHAR(15) PRIMARY KEY,
+	IDP INT PRIMARY KEY,
 	IDE INT PRIMARY KEY
 );
-ALTER TABLE CreaEpisodio ADD CONSTRAINT podcast_fk_nombre
-FOREIGN KEY (nombre) REFERENCES Podcast (nombre);
+ALTER TABLE CreaEpisodio ADD CONSTRAINT podcast_fk_id
+FOREIGN KEY (ID) REFERENCES Podcast (ID);
 ALTER TABLE CreaEpisodio ADD CONSTRAINT episodio_fk_id
 FOREIGN KEY (IDE) REFERENCES Episodio (ID);
 
