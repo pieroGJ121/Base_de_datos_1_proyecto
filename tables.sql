@@ -108,9 +108,11 @@ ALTER TABLE AlmacenaPlaylist ADD CONSTRAINT ca_fk_id
 FOREIGN KEY (IDCA) REFERENCES ContenidoAcumulable (ID);
 
 CREATE TABLE Participa(
-	correo VARCHAR(20) PRIMARY KEY,
-	IDP INT PRIMARY KEY
+	correo VARCHAR(20),
+	IDP INT
 );
+ALTER TABLE Participa ADD CONSTRAINT participa_pk
+PRIMARY KEY (correo, IDP);
 ALTER TABLE Participa ADD CONSTRAINT ap_fk_correo
 FOREIGN KEY (correo) REFERENCES ArtistaPodcast (correo);
 ALTER TABLE Participa ADD CONSTRAINT podcast_fk_id
