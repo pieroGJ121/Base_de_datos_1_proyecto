@@ -158,25 +158,58 @@ def generate_crea_cancion(n):
 
 
 def generate_episodio(n):
-    # Piero
     i = 0
+    letters = string.ascii_lowercase
+    cursor.execute("SELECT ID FROM Podcast;")
+    res = cursor.fetchall()
+    while i < n:
+        idp = random.choice(res)[0]
+        idc = random.randint(100, 999999)
+        year = str(random.randint(2018, 2022))
+        month = str(random.randint(1, 12))
+        day = str(random.randint(1, 31))
+        lang = random.choice(
+            [
+                "english",
+                "spanish",
+                "german",
+                "japanese",
+                "chinese",
+                "hinde",
+                "french",
+                "portuguese",
+                "bengali",
+            ]
+        )
+        if len(month) == 1:
+            month = "0" + month
+        if len(day) == 1:
+            day = "0" + day
+        date = year + "-" + month + "-" + day
+        nombre = "".join(random.choice(letters) for i in range(10))
 
+        try:
+            cursor.execute(
+                f"INSERT INTO Contenido(ID, fechaLanzamiento, lenguaje, nombre) VALUES ({idc}, '{date}', '{lang}', '{nombre}');"
+            )
 
-def generate_almacena_temporada(n):
-    # Piero
-    i = 0
+            duracion = (
+                "00:0"
+                + str(random.randint(0, 9))
+                + ":"
+                + str(random.randint(0, 5))
+                + str(random.randint(0, 9))
+            )
 
+            cursor.execute(
+                f"INSERT INTO ContenidoAcumulable(ID, duracion) VALUES ({idc}, '{duracion}');"
+            )
 
-def generate_temporada(n):
-    # Piero
-    i = 0
+            temporada = random.randint(1, 10)
 
-
-def generate_podcast(n):
-    # Piero
-    i = 0
-
-
-def generate_participa(n):
-    # Piero
-    i = 0
+            cursor.execute(
+                f"INSERT INTO Episodio(ID, IDP, temporada) VALUES ({idc}, {idp}, {temporada});"
+            )
+            i += 1
+        except Exception as e:
+            print(e, i)
