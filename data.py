@@ -200,6 +200,54 @@ def make_cancion_correctly(n):
 def generate_album(n):
     # Jairo
     i = 0
+    letters = string.ascii_lowercase
+    cursor.execute("SELECT ID FROM Cancion;")
+    resc = cursor.fetchall()
+    cursor.execute("SELECT ID FROM ArtistaMusical;")
+    resam = cursor.fetchall()
+    while i < n:
+        idca = random.choice(resc)[0]
+        correo = random.choice(resam)[0]
+        idc = random.randint(100, 999999999)
+        year = str(random.randint(2018, 2022))
+        month = str(random.randint(1, 12))
+        day = str(random.randint(1, 27))
+        lang = random.choice(
+            [
+                "english",
+                "spanish",
+                "german",
+                "japanese",
+                "chinese",
+                "hinde",
+                "french",
+                "portuguese",
+                "bengali",
+            ]
+        )
+
+        if len(month) == 1:
+            month = "0" + month
+        if len(day) == 1:
+            day = "0" + day
+        date = year + "-" + month + "-" + day
+        nombre = "".join(random.choice(letters) for i in range(10))
+
+        try:
+            cursor.execute(
+                f"INSERT INTO Contenido(ID, fechaLanzamiento, lenguaje, nombre) VALUES ({idc}, '{date}', '{lang}', '{nombre}');"
+            )
+
+            cursor.execute(f"INSERT INTO Album(ID) VALUES ({idc});")
+            cursor.execute(
+                f"INSERT INTO AlmacenaAlbum(IDC, IDA) VALUES ({idca}, {idc});"
+            )
+            cursor.execute(
+                f"INSERT INTO CreaAlbum(correo, IDA) VALUES ('{correo}', {idc});"
+            )
+            i += 1
+        except Exception as e:
+            print(e, i)
 
 
 def generate_almacena_album(n):
