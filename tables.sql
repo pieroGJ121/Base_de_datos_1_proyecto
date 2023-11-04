@@ -54,7 +54,6 @@ FOREIGN KEY (correo) REFERENCES Usuario (correo);
 CREATE TABLE ContenidoAcumulable(
 	ID INT PRIMARY KEY,
 	duracion TIME
-	FOREIGN KEY (ID) REFERENCES Contenido(ID)
 );
 ALTER TABLE ContenidoAcumulable ADD CONSTRAINT contenido_fk_id
 FOREIGN KEY (ID) REFERENCES Contenido (ID);
@@ -74,10 +73,10 @@ FOREIGN KEY (ID) REFERENCES Contenido (ID);
 CREATE TABLE Episodio(
 ID INT PRIMARY KEY,
 IDP INT,
-temporada VARCHAR(15)
+temporada INT
 );
-ALTER TABLE Episodio ADD CONSTRAINT contenido_fk_id
-FOREIGN KEY (ID) REFERENCES Contenido (ID);
+ALTER TABLE Episodio ADD CONSTRAINT ca_fk_id
+FOREIGN KEY (ID) REFERENCES ContenidoAcumulable (ID);
 ALTER TABLE Episodio ADD CONSTRAINT podcast_fk_id
 FOREIGN KEY (IDP) REFERENCES Podcast (ID);
 
@@ -86,13 +85,15 @@ CREATE TABLE Cancion(
 	genero  VARCHAR(10),
 	compositor  VARCHAR(15)
 );
-ALTER TABLE Cancion ADD CONSTRAINT contenido_fk_id
-FOREIGN KEY (ID) REFERENCES Contenido (ID);
+ALTER TABLE Cancion ADD CONSTRAINT ca_fk_id
+FOREIGN KEY (ID) REFERENCES ContenidoAcumulable (ID);
 
 CREATE TABLE Favoritos(
 	correo VARCHAR(20) PRIMARY KEY,
 	ID INT PRIMARY KEY
 );
+ALTER TABLE Favoritos ADD CONSTRAINT favoritos_pk
+PRIMARY KEY (correo, ID);
 ALTER TABLE Favoritos ADD CONSTRAINT contenido_fk_id
 FOREIGN KEY (ID) REFERENCES Contenido (ID);
 ALTER TABLE Favoritos ADD CONSTRAINT usuario_fk_correo
@@ -102,6 +103,8 @@ CREATE TABLE AlmacenaPlaylist(
 	IDP INT,
 	IDCA INT
 );
+ALTER TABLE AlmacenaPlaylist ADD CONSTRAINT ap_pk
+PRIMARY KEY (IDP, IDCA);
 ALTER TABLE AlmacenaPlaylist ADD CONSTRAINT playlist_fk_id
 FOREIGN KEY (IDP) REFERENCES Playlist (ID);
 ALTER TABLE AlmacenaPlaylist ADD CONSTRAINT ca_fk_id
@@ -120,55 +123,67 @@ FOREIGN KEY (IDP) REFERENCES Podcast (ID);
 
 
 CREATE TABLE TieneRedes(
-	correo VARCHAR(20) PRIMARY KEY,
-	nombreRed VARCHAR(10) PRIMARY KEY,
+	correo VARCHAR(20),
+	nombreRed VARCHAR(10),
 	username VARCHAR(10)
 );
+ALTER TABLE TieneRedes ADD CONSTRAINT tr_pk
+PRIMARY KEY (correo, nombreRed);
 ALTER TABLE TieneRedes ADD CONSTRAINT am_fk_correo
 FOREIGN KEY (correo) REFERENCES ArtistaMusical (correo);
 ALTER TABLE TieneRedes ADD CONSTRAINT red_fk_nombre
 FOREIGN KEY (nombreRed) REFERENCES RedSocial (nombre);
 
 CREATE TABLE TieneEventos(
-	correo VARCHAR(20) PRIMARY KEY,
-	nombre VARCHAR(15) PRIMARY KEY
+	correo VARCHAR(20),
+	nombre VARCHAR(15)
 );
+ALTER TABLE TieneEventos ADD CONSTRAINT te_pk
+PRIMARY KEY (correo, nombre);
 ALTER TABLE TieneEventos ADD CONSTRAINT am_fk_correo
 FOREIGN KEY (correo) REFERENCES ArtistaMusical (correo);
 ALTER TABLE TieneEventos ADD CONSTRAINT evento_fk_nombre
 FOREIGN KEY (nombre) REFERENCES Evento (nombre);
 
 CREATE TABLE AlmacenaAlbum(
-	IDC INT PRIMARY KEY,
-	IDA INT PRIMARY KEY
+	IDC INT,
+	IDA INT
 );
+ALTER TABLE AlmacenaAlbum ADD CONSTRAINT aa_pk
+PRIMARY KEY (IDC, IDA);
 ALTER TABLE AlmacenaAlbum ADD CONSTRAINT cancion_fk_id
 FOREIGN KEY (IDC) REFERENCES Cancion (ID);
 ALTER TABLE AlmacenaAlbum ADD CONSTRAINT album_fk_id
 FOREIGN KEY (IDA) REFERENCES Album (ID);
 
 CREATE TABLE CreaAlbum(
-	correo VARCHAR(20) PRIMARY KEY,
-	IDA INT PRIMARY KEY
+	correo VARCHAR(20),
+	IDA INT
 );
+ALTER TABLE CreaAlbum ADD CONSTRAINT ca_pk
+PRIMARY KEY (correo, IDA);
 ALTER TABLE CreaAlbum ADD CONSTRAINT am_fk_correo
 FOREIGN KEY (correo) REFERENCES ArtistaMusical (correo);
 ALTER TABLE CreaAlbum ADD CONSTRAINT album_fk_id
 FOREIGN KEY (IDA) REFERENCES Album (ID);
 
 CREATE TABLE CreaCancion(
-	correo VARCHAR(20) PRIMARY KEY,
-	IDC INT PRIMARY KEY
+	correo VARCHAR(20),
+	IDC INT
 );
+ALTER TABLE CreaCancion ADD CONSTRAINT cc_pk
+PRIMARY KEY (correo, IDC);
 ALTER TABLE CreaCancion ADD CONSTRAINT am_fk_correo
 FOREIGN KEY (correo) REFERENCES ArtistaMusical (correo);
 ALTER TABLE CreaCancion ADD CONSTRAINT cancion_fk_id
 FOREIGN KEY (IDC) REFERENCES cancion (ID);
 
 CREATE TABLE CreaEpisodio(
-	IDP INT PRIMARY KEY,
-	IDE INT PRIMARY KEY
+	IDP INT,
+	IDE INT
 );
+ALTER TABLE CreaEpisodio ADD CONSTRAINT ce_pk
+PRIMARY KEY (IDP, IDE);
 ALTER TABLE CreaEpisodio ADD CONSTRAINT podcast_fk_id
 FOREIGN KEY (ID) REFERENCES Podcast (ID);
 ALTER TABLE CreaEpisodio ADD CONSTRAINT episodio_fk_id

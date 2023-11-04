@@ -1,5 +1,7 @@
 import psycopg2
 import random
+import string
+import names
 
 conn = psycopg2.connect(
     database="", user="", password="", host="", port="5432", options="-c search_path="
@@ -70,16 +72,6 @@ def generate_compra_local(n):
                 i += 1
         except Exception as e:
             print(e, i)
-
-
-def generate_usuario(n):
-    # Piero
-    i = 0
-
-
-def generate_artista_podcast(n):
-    # Piero
-    i = 0
 
 
 def generate_artista_musical(n):
@@ -272,10 +264,10 @@ def generate_episodio(n):
     res = cursor.fetchall()
     while i < n:
         idp = random.choice(res)[0]
-        idc = random.randint(100, 999999)
+        idc = random.randint(100, 99999999)
         year = str(random.randint(2018, 2022))
         month = str(random.randint(1, 12))
-        day = str(random.randint(1, 31))
+        day = str(random.randint(1, 27))
         lang = random.choice(
             [
                 "english",
