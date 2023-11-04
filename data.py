@@ -122,18 +122,78 @@ def generate_favoritos(n):
     i = 0
 
 
-def generate_contenido(n):
-    # Piero
-    i = 0
-
-
-def generate_contenido_acumulable(n):
-    # Piero
-    i = 0
-
-
 def generate_cancion(n):
-    # Piero
+    i = 0
+    letters = string.ascii_lowercase
+    while i < n:
+        idc = random.randint(100, 99999999)
+        year = str(random.randint(2018, 2022))
+        month = str(random.randint(1, 12))
+        day = str(random.randint(1, 27))
+        lang = random.choice(
+            [
+                "english",
+                "spanish",
+                "german",
+                "japanese",
+                "chinese",
+                "hinde",
+                "french",
+                "portuguese",
+                "bengali",
+            ]
+        )
+
+        if len(month) == 1:
+            month = "0" + month
+        if len(day) == 1:
+            day = "0" + day
+        date = year + "-" + month + "-" + day
+        nombre = "".join(random.choice(letters) for i in range(10))
+
+        try:
+            cursor.execute(
+                f"INSERT INTO Contenido(ID, fechaLanzamiento, lenguaje, nombre) VALUES ({idc}, '{date}', '{lang}', '{nombre}');"
+            )
+
+            duracion = (
+                "00:0"
+                + str(random.randint(0, 9))
+                + ":"
+                + str(random.randint(0, 5))
+                + str(random.randint(0, 9))
+            )
+
+            cursor.execute(
+                f"INSERT INTO ContenidoAcumulable(ID, duracion) VALUES ({idc}, '{duracion}');"
+            )
+
+            genre = random.choice(
+                [
+                    "rock",
+                    "hip-hop",
+                    "pop",
+                    "country",
+                    "classical",
+                    "opera",
+                    "symphonic",
+                    "jazz",
+                    "eurobeat",
+                    "orchestral",
+                    "folk",
+                ]
+            )
+            compositor = names.get_first_name()
+
+            cursor.execute(
+                f"INSERT INTO Cancion(ID, genero, compositor) VALUES ({idc}, '{genre}', '{compositor}');"
+            )
+            i += 1
+        except Exception as e:
+            print(e, i)
+
+
+def make_cancion_correctly(n):
     i = 0
 
 
