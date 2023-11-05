@@ -1,0 +1,77 @@
+INSERT INTO mil.creaalbum (correo,ida) VALUES
+	 ('j@kp.com',464364073),
+	 ('r@f.com',681250856),
+	 ('hh@ihsia.com',110991563),
+	 ('ag@d.com',778456000),
+	 ('wuj@un.com',127607320),
+	 ('t@ijr.com',443074552),
+	 ('hsn@u.com',801229860),
+	 ('ty@e.com',684908637),
+	 ('sktag@o.com',582863836),
+	 ('bh@sgb.com',759899151);
+INSERT INTO mil.creaalbum (correo,ida) VALUES
+	 ('pdg@hd.com',268026274),
+	 ('hh@ihsia.com',950275264),
+	 ('e@ig.com',768746526),
+	 ('wdk@vs.com',836678922),
+	 ('b@jnez.com',949679877),
+	 ('a@d.com',979204120),
+	 ('ty@e.com',453909877),
+	 ('a@j.com',679812044),
+	 ('s@x.com',987218297),
+	 ('wuj@un.com',64305456);
+INSERT INTO mil.creaalbum (correo,ida) VALUES
+	 ('oskop@vg.com',264893412),
+	 ('a@j.com',229698262),
+	 ('c@d.com',730600385),
+	 ('i@m.com',568766079),
+	 ('n@q.com',933818187),
+	 ('yte@q.com',316865375),
+	 ('d@f.com',810309355),
+	 ('j@meu.com',601522441),
+	 ('qr@j.com',685447932),
+	 ('ryb@kj.com',865653348);
+INSERT INTO mil.creaalbum (correo,ida) VALUES
+	 ('i@m.com',821890732),
+	 ('yq@tl.com',149546490),
+	 ('t@pl.com',420187994),
+	 ('ve@txog.com',343077673),
+	 ('x@v.com',139389891),
+	 ('ln@u.com',11460495),
+	 ('t@od.com',255608101),
+	 ('a@j.com',2939896),
+	 ('ryb@kj.com',395123267),
+	 ('v@i.com',853912683);
+INSERT INTO mil.creaalbum (correo,ida) VALUES
+	 ('a@d.com',940529408),
+	 ('liy@tv.com',53432463),
+	 ('ve@txog.com',707429725),
+	 ('s@x.com',190330388),
+	 ('ac@o.com',629099249),
+	 ('hsn@u.com',490410227),
+	 ('vkr@sol.com',326546327),
+	 ('v@i.com',641451781),
+	 ('r@y.com',398318402),
+	 ('t@xwr.com',989686855);
+INSERT INTO mil.creaalbum (correo,ida) VALUES
+	 ('ty@e.com',981950288),
+	 ('v@xxvz.com',274591101),
+	 ('ty@e.com',159187863),
+	 ('bsy@a.com',831233189),
+	 ('t@ijr.com',671629279),
+	 ('ln@u.com',129535235),
+	 ('lc@k.com',726311831),
+	 ('ln@u.com',924248824),
+	 ('c@d.com',486414590),
+	 ('mk@hmrkk.com',654477949);
+INSERT INTO mil.creaalbum (correo,ida) VALUES
+	 ('ixg@k.com',785906582),
+	 ('n@q.com',173574851),
+	 ('r@y.com',778712864),
+	 ('vf@tk.com',997861211),
+	 ('ve@txog.com',604656931),
+	 ('t@xwr.com',527374556),
+	 ('liy@tv.com',251287161),
+	 ('b@jnez.com',58604589),
+	 ('sd@xc.com',604758867),
+	 ('hsn@u.com',453604685);
