@@ -74,9 +74,38 @@ def generate_compra_local(n):
             print(e, i)
 
 
-def generate_artista_musical(n):
-    # Jairo
+def generate_artista_musical_from_usuarios(n):
+    # Only use when there is data in usuarios
     i = 0
+    letters = string.ascii_lowercase
+    cursor.execute(
+        "SELECT correo FROM Usuario EXCEPT SELECT correo FROM ArtistaPodcast;"
+    )
+    resc = cursor.fetchall()
+    while i < n:
+        correo = resc[i][0]
+        genre = random.choice(
+            [
+                "rock",
+                "hip-hop",
+                "pop",
+                "country",
+                "classical",
+                "opera",
+                "symphonic",
+                "jazz",
+                "eurobeat",
+                "orchestral",
+                "folk",
+            ]
+        )
+        try:
+            cursor.execute(
+                f"INSERT INTO ArtistaMusical(correo, generoMusical) VALUES ('{correo}', '{genre}');"
+            )
+            i += 1
+        except Exception as e:
+            print(e, i)
 
 
 def generate_evento(n):
