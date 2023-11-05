@@ -1,0 +1,88 @@
+INSERT INTO mil.artistamusical (correo,generomusical) VALUES
+	 ('f@k.com','hip-hop'),
+	 ('yoy@x.com','classical'),
+	 ('m@nn.com','pop'),
+	 ('bsy@a.com','classical'),
+	 ('d@rkx.com','pop'),
+	 ('t@ijr.com','country'),
+	 ('o@ciqna.com','folk'),
+	 ('yhu@lk.com','eurobeat'),
+	 ('j@meu.com','symphonic'),
+	 ('ve@txog.com','pop');
+INSERT INTO mil.artistamusical (correo,generomusical) VALUES
+	 ('liy@tv.com','eurobeat'),
+	 ('d@lgor.com','pop'),
+	 ('q@c.com','symphonic'),
+	 ('lc@k.com','orchestral'),
+	 ('gv@j.com','classical'),
+	 ('vlmk@nl.com','hip-hop'),
+	 ('hh@ihsia.com','rock'),
+	 ('tq@k.com','orchestral'),
+	 ('r@f.com','pop'),
+	 ('i@hyk.com','hip-hop');
+INSERT INTO mil.artistamusical (correo,generomusical) VALUES
+	 ('b@p.com','pop'),
+	 ('c@d.com','symphonic'),
+	 ('s@cum.com','pop'),
+	 ('q@g.com','eurobeat'),
+	 ('a@d.com','pop'),
+	 ('die@x.com','folk'),
+	 ('ag@d.com','symphonic'),
+	 ('hsn@u.com','rock'),
+	 ('j@kp.com','hip-hop'),
+	 ('imr@wly.com','symphonic');
+INSERT INTO mil.artistamusical (correo,generomusical) VALUES
+	 ('v@xxvz.com','eurobeat'),
+	 ('m@x.com','classical'),
+	 ('oskop@vg.com','hip-hop'),
+	 ('wuj@un.com','classical'),
+	 ('t@od.com','jazz'),
+	 ('e@ig.com','classical'),
+	 ('ty@e.com','orchestral'),
+	 ('yte@q.com','eurobeat'),
+	 ('mk@hmrkk.com','hip-hop'),
+	 ('t@pl.com','orchestral');
+INSERT INTO mil.artistamusical (correo,generomusical) VALUES
+	 ('j@p.com','classical'),
+	 ('j@e.com','pop'),
+	 ('b@jnez.com','country'),
+	 ('vkr@sol.com','rock'),
+	 ('d@f.com','eurobeat'),
+	 ('u@r.com','orchestral'),
+	 ('ln@u.com','pop'),
+	 ('lo@ej.com','pop'),
+	 ('v@i.com','folk'),
+	 ('q@ubetx.com','folk');
+INSERT INTO mil.artistamusical (correo,generomusical) VALUES
+	 ('ryb@kj.com','orchestral'),
+	 ('gedxr@h.com','eurobeat'),
+	 ('qr@j.com','pop'),
+	 ('yq@tl.com','classical'),
+	 ('sd@xc.com','hip-hop'),
+	 ('jx@lr.com','country'),
+	 ('k@nbcmb.com','orchestral'),
+	 ('i@m.com','pop'),
+	 ('b@vp.com','eurobeat'),
+	 ('ac@o.com','orchestral');
+INSERT INTO mil.artistamusical (correo,generomusical) VALUES
+	 ('a@j.com','classical'),
+	 ('cw@l.com','pop'),
+	 ('ixg@k.com','symphonic'),
+	 ('jdo@yf.com','pop'),
+	 ('w@v.com','rock'),
+	 ('n@q.com','symphonic'),
+	 ('pdg@hd.com','hip-hop'),
+	 ('qhz@x.com','jazz'),
+	 ('sktag@o.com','hip-hop'),
+	 ('qs@hvf.com','rock');
+INSERT INTO mil.artistamusical (correo,generomusical) VALUES
+	 ('t@xwr.com','jazz'),
+	 ('s@x.com','symphonic'),
+	 ('x@v.com','eurobeat'),
+	 ('xk@wexye.com','orchestral'),
+	 ('wdk@vs.com','rock'),
+	 ('bh@sgb.com','rock'),
+	 ('m@cbi.com','classical'),
+	 ('r@y.com','hip-hop'),
+	 ('d@u.com','folk'),
+	 ('vf@tk.com','symphonic');
