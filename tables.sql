@@ -29,7 +29,7 @@ CREATE TABLE Contenido(
 
 CREATE TABLE ArtistaMusical(
 	correo  VARCHAR(20) PRIMARY KEY,
-	genero_musica VARCHAR(10)
+	generoMusical VARCHAR(10)
 );
 ALTER TABLE ArtistaMusical ADD CONSTRAINT usuario_fk_correo
 FOREIGN KEY (correo) REFERENCES Usuario (correo);
@@ -82,15 +82,15 @@ FOREIGN KEY (IDP) REFERENCES Podcast (ID);
 
 CREATE TABLE Cancion(
 	ID INT PRIMARY KEY,
-	genero  VARCHAR(10),
+	genero VARCHAR(10),
 	compositor  VARCHAR(15)
 );
 ALTER TABLE Cancion ADD CONSTRAINT ca_fk_id
 FOREIGN KEY (ID) REFERENCES ContenidoAcumulable (ID);
 
 CREATE TABLE Favoritos(
-	correo VARCHAR(20) PRIMARY KEY,
-	ID INT PRIMARY KEY
+	correo VARCHAR(20),
+	ID INT
 );
 ALTER TABLE Favoritos ADD CONSTRAINT favoritos_pk
 PRIMARY KEY (correo, ID);

@@ -160,12 +160,11 @@ def make_cancion_correctly():
 
 
 def generate_album(n):
-    # Jairo
     i = 0
     letters = string.ascii_lowercase
     cursor.execute("SELECT ID FROM Cancion;")
     resc = cursor.fetchall()
-    cursor.execute("SELECT ID FROM ArtistaMusical;")
+    cursor.execute("SELECT correo FROM ArtistaMusical;")
     resam = cursor.fetchall()
     while i < n:
         idca = random.choice(resc)[0]
