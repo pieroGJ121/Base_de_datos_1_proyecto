@@ -47,39 +47,101 @@ def generate_artista_musical_from_usuarios(n):
 
 
 def generate_evento(n):
-    # Jairo
+    #Jairo
     # En mil, n es como 200 y para cada siguiente schema pones otro 0
     i = 0
-
+    while i < n:
+        nombre = ''.join( random.choice( string.ascii_letters ) for i in range(15))
+        lugar = ''.join( random.choice( string.ascii_letters ) for i in range(15))
+        fecha = f"{ random.randint(2023, 2030) }-{ random.randint(1, 12) }-{ random.randint(1, 30) }"
+        try:
+            cursor.execute( f"INSERT INTO Evento(nombre, lugar, fecha) VALUES ('{nombre}', '{lugar}', '{fecha}');" )
+            i += 1
+        except Exception as e:
+            print(e, i)
 
 def generate_tiene_evento(n):
-    # Jairo
     # Los que participan son como 5 artistas en promedio por evento.
     # Para mil hay como 100 astistas musicales, asi que n es como 500. Para
     # cada siguiente schema pones otro 0
-    i = 0
 
+    # aun no esta implementado lo de arriba ^|
+    i = 0
+    cursor.execute( "SELECT correo FROM Usuario EXCEPT SELECT correo FROM ArtistaPodcast;" )
+    resc_1 = cursor.fetchall()
+    cursor.execute( "SELECT nombre FROM Evento;" )
+    resc_2 = cursor.fetchall()
+    while i < n:
+        correo = resc_1[i][0]
+        nombre = resc_2[i][0]
+        try:
+            cursor.execute(f"INSERT INTO TieneEvento(correo, nombre) VALUES ('{correo}', '{nombre}');")
+            i += 1
+        except Exception as e:
+            print(e, i)
 
 def generate_red_social(n):
-    # Jairo
+    #Jairo
     # Este es fijo. Por cada res social principal que encuentres, lo pones. No
     # cambia respecto al schmema. El nombre seria el nombre de la red social
-    i = 0
 
+    # aun no esta implementado lo de arriba ^|
+    i = 0
+    while i < n:
+        nombre = ''.join( random.choice( string.ascii_letters ) for i in range(15))
+        try:
+            cursor.execute( f"INSERT INTO RedSocial(nombre) VALUES ('{nombre}');" )
+            i += 1
+        except Exception as e:
+            print(e, i)
 
 def generate_tiene_red_social(n):
-    # Jairo
+    #Jairo
     # Cada artista musical tiene como 2 cuentas. Para mil, hay 100 artistas
     # musicales, asi que n es 200
-    i = 0
 
+    # aun no esta implementado lo de arriba ^|
+    i = 0
+    cursor.execute("SELECT correo FROM Usuario EXCEPT SELECT correo FROM ArtistaPodcast;")
+    resc_1 = cursor.fetchall()
+    cursor.execute("SELECT nombre FROM Evento;")
+    resc_2 = cursor.fetchall()
+    while i < n:
+        correo = resc_1[i][0]
+        nombreRed = resc_2[i][0]
+        username = ''.join( random.choice( string.ascii_letters ) for i in range(10))
+        try:
+            cursor.execute(f"INSERT INTO TieneRedes(correo, nombreRed, username) VALUES ('{correo}', '{nombreRed}', '{username}');")
+            i += 1
+        except Exception as e:
+            print(e, i)
 
 def generate_playlist(n):
-    # Jairo
+    #Jairo
     # Para mil, hay como unos 300 usuarios, asi que n es como 400. Para
     # el siguiente schema pones otro 0
-    i = 0
 
+    #aun no esta implementado lo de arriba ^|
+    i = 0
+    cursor.execute(
+        "SELECT correo FROM Usuario;"
+    )
+    resc = cursor.fetchall()
+    while i < n:
+        id = i + 1
+        correo = resc[i][0]
+        fecha_creacion = f"{ random.randint(2020, 2023) }-{ random.randint(1, 12) }-{ random.randint(1, 30) }"
+        privacidad = random.choice( [True, False] )
+        nombre = ''.join( random.choice( string.ascii_letters ) for i in range(15))
+        descripcion = ''.join( random.choice( string.ascii_letters ) for i in range(40))
+
+        try:
+            cursor.execute(
+                f"INSERT INTO Playlist(ID, correo, fecha_creacion, privacidad, nombre, descripcion) VALUES ({id}, '{correo}', '{fecha_creacion}', {privacidad}, '{nombre}', '{descripcion}');"
+            )
+            i += 1
+        except Exception as e:
+            print(e, i)
 
 def generate_almacena_playlist(n):
     # Jairo
@@ -87,6 +149,19 @@ def generate_almacena_playlist(n):
     # el siguiente schema pones otro 0
 
     i = 0
+    cursor.execute("SELECT ID FROM Playlist;")
+    resc_1 = cursor.fetchall()
+    cursor.execute("SELECT ID FROM ContenidoAcumulable;")
+    resc_2 = cursor.fetchall()
+    while i < n:
+        idp = resc_1[i][0]
+        idca = resc_2[i][0]
+        try:
+            cursor.execute(
+                f"INSERT INTO AlmacenaPlaylist( IDP, IDCA ) VALUES ('{idp}', '{idca}');")
+            i += 1
+        except Exception as e:
+            print(e, i)
 
 
 def generate_cancion(n):
@@ -233,7 +308,19 @@ def generate_almacena_album(n):
     # que posiblemente se demore cambias el 12 por un 8. Si quieres tambien
     # puedes dejarlo por bastante tiempo
     i = 0
-
+    cursor.execute("SELECT ID FROM Cancion;")
+    resc_1 = cursor.fetchall()
+    cursor.execute("SELECT ID FROM Album;")
+    resc_2 = cursor.fetchall()
+    while i < n:
+        idc = resc_1[i][0]
+        ida = resc_2[i][0]
+        try:
+            cursor.execute(
+                f"INSERT INTO AlmacenaAlbum( IDC, IDA ) VALUES ('{idc}', '{ida}');")
+            i += 1
+        except Exception as e:
+            print(e, i)
 
 def generate_crea_album(n):
     # Jairo
@@ -241,6 +328,19 @@ def generate_crea_album(n):
     # tercera parte de albumes que hay. Para 1000, hay 77, asi que n es como
     # 25. Para cada schema siguiente le pones otro 0
     i = 0
+    cursor.execute("SELECT correo FROM Usuario EXCEPT SELECT correo FROM ArtistaPodcast;")
+    resc_1 = cursor.fetchall()
+    cursor.execute("SELECT ID FROM Album;")
+    resc_2 = cursor.fetchall()
+    while i < n:
+        correo = resc_1[i][0]
+        ida = resc_2[i][0]
+        try:
+            cursor.execute(
+                f"INSERT INTO CreaAlbum( correo, IDA ) VALUES ('{correo}', '{ida}');")
+            i += 1
+        except Exception as e:
+            print(e, i)
 
 
 def generate_crea_cancion(n):
@@ -249,6 +349,19 @@ def generate_crea_cancion(n):
     # tercera parte de canciones que hay. Para 1000, hay 700, asi que n es como
     # 240. Para cada schema siguiente le pones otro 0
     i = 0
+    cursor.execute("SELECT correo FROM Usuario EXCEPT SELECT correo FROM ArtistaPodcast;")
+    resc_1 = cursor.fetchall()
+    cursor.execute("SELECT ID FROM Cancion;")
+    resc_2 = cursor.fetchall()
+    while i < n:
+        correo = resc_1[i][0]
+        idc = resc_2[i][0]
+        try:
+            cursor.execute(
+                f"INSERT INTO AlmacenaPlaylist( IDC, IDA ) VALUES ('{correo}', '{idc}');")
+            i += 1
+        except Exception as e:
+            print(e, i)
 
 
 def generate_episodio(n):
