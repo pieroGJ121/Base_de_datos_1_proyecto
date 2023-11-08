@@ -232,4 +232,6 @@ ALTER TABLE Podcast ADD CONSTRAINT podcast_check_fecha CHECK ( fechaLanzamiento 
 
 ALTER TABLE Cancion ADD CONSTRAINT cancion_check_fecha CHECK ( fechaLanzamiento > (SELECT fechaLanzamiento FROM Album WHERE ID = (Select IDC FROM AlmacenaAlbum WHERE IDC = Cancion.ID)));
 
+ALTER TABLE Evento ADD CONSTRAINT evento_check_fecha CHECK ( fecha > (SELECT fecha_creacion FROM Usuario WHERE correo = (Select correo FROM TieneEventos WHERE nombre = Evento.nombre)));
+
 
