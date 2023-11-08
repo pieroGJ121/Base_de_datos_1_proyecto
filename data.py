@@ -50,12 +50,17 @@ def generate_evento(n):
     #Jairo
     # En mil, n es como 200 y para cada siguiente schema pones otro 0
     i = 0
+    cursor.execute("SELECT fecha_creacion FROM Usuario;")
+    resc_2 = cursor.fetchall()
+    
     while i < n:
         nombre = ''.join( random.choice( string.ascii_letters ) for i in range(15))
         lugar = ''.join( random.choice( string.ascii_letters ) for i in range(15))
-        fecha = f"{ random.randint(2023, 2030) }-{ random.randint(1, 12) }-{ random.randint(1, 30) }"
+        fecha = resc_2[0]
+        fecha_creacion = f"{ random.randint(fecha.year, 2023) }-{ random.randint(fecha.mes, 12) }-{ random.randint(fecha.day, 30) }"
+    
         try:
-            cursor.execute( f"INSERT INTO Evento(nombre, lugar, fecha) VALUES ('{nombre}', '{lugar}', '{fecha}');" )
+            cursor.execute( f"INSERT INTO Evento(nombre, lugar, fecha) VALUES ('{nombre}', '{lugar}', '{fecha_creacion}');" )
             i += 1
         except Exception as e:
             print(e, i)
@@ -67,7 +72,7 @@ def generate_tiene_evento(n):
 
     # aun no esta implementado lo de arriba ^|
     i = 0
-    cursor.execute( "SELECT correo FROM Usuario EXCEPT SELECT correo FROM ArtistaPodcast;" )
+    cursor.execute( "SELECT correo FROM ArtistaMusical;" )
     resc_1 = cursor.fetchall()
     cursor.execute( "SELECT nombre FROM Evento;" )
     resc_2 = cursor.fetchall()
@@ -88,7 +93,14 @@ def generate_red_social(n):
     # aun no esta implementado lo de arriba ^|
     i = 0
     while i < n:
-        nombre = ''.join( random.choice( string.ascii_letters ) for i in range(15))
+        nombre = random.choice( [ 
+            "Facebook", 
+            "Youtube", 
+            "Instagram", 
+            "TikTok",
+            "Twitter",
+            "SoundCloud",
+            ])
         try:
             cursor.execute( f"INSERT INTO RedSocial(nombre) VALUES ('{nombre}');" )
             i += 1
@@ -102,7 +114,7 @@ def generate_tiene_red_social(n):
 
     # aun no esta implementado lo de arriba ^|
     i = 0
-    cursor.execute("SELECT correo FROM Usuario EXCEPT SELECT correo FROM ArtistaPodcast;")
+    cursor.execute("SELECT correo FROM ArtistaMusical;")
     resc_1 = cursor.fetchall()
     cursor.execute("SELECT nombre FROM Evento;")
     resc_2 = cursor.fetchall()
@@ -127,10 +139,13 @@ def generate_playlist(n):
         "SELECT correo FROM Usuario;"
     )
     resc = cursor.fetchall()
+    cursor.execute("SELECT fecha_creacion FROM Usuario;")
+    resc_2 = cursor.fetchall()
     while i < n:
         id = i + 1
         correo = resc[i][0]
-        fecha_creacion = f"{ random.randint(2020, 2023) }-{ random.randint(1, 12) }-{ random.randint(1, 30) }"
+        fecha = resc_2[0]
+        fecha_creacion = f"{ random.randint(fecha.year, 2023) }-{ random.randint(fecha.mes, 12) }-{ random.randint(fecha.day, 30) }"
         privacidad = random.choice( [True, False] )
         nombre = ''.join( random.choice( string.ascii_letters ) for i in range(15))
         descripcion = ''.join( random.choice( string.ascii_letters ) for i in range(40))
@@ -328,7 +343,7 @@ def generate_crea_album(n):
     # tercera parte de albumes que hay. Para 1000, hay 77, asi que n es como
     # 25. Para cada schema siguiente le pones otro 0
     i = 0
-    cursor.execute("SELECT correo FROM Usuario EXCEPT SELECT correo FROM ArtistaPodcast;")
+    cursor.execute("SELECT correo FROM ArtistaMusicalt;")
     resc_1 = cursor.fetchall()
     cursor.execute("SELECT ID FROM Album;")
     resc_2 = cursor.fetchall()
@@ -349,7 +364,7 @@ def generate_crea_cancion(n):
     # tercera parte de canciones que hay. Para 1000, hay 700, asi que n es como
     # 240. Para cada schema siguiente le pones otro 0
     i = 0
-    cursor.execute("SELECT correo FROM Usuario EXCEPT SELECT correo FROM ArtistaPodcast;")
+    cursor.execute("SELECT correo FROM ArtistaMusical;")
     resc_1 = cursor.fetchall()
     cursor.execute("SELECT ID FROM Cancion;")
     resc_2 = cursor.fetchall()
