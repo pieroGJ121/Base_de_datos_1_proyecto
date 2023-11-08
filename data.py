@@ -56,7 +56,7 @@ def generate_evento(n):
     while i < n:
         nombre = ''.join( random.choice( string.ascii_letters ) for i in range(15))
         lugar = ''.join( random.choice( string.ascii_letters ) for i in range(15))
-        fecha = resc_2[0]
+        fecha = resc_2[i][0]
         fecha_creacion = f"{ random.randint(fecha.year, 2023) }-{ random.randint(fecha.mes, 12) }-{ random.randint(fecha.day, 30) }"
     
         try:
@@ -144,7 +144,7 @@ def generate_playlist(n):
     while i < n:
         id = i + 1
         correo = resc[i][0]
-        fecha = resc_2[0]
+        fecha = resc_2[i][0]
         fecha_creacion = f"{ random.randint(fecha.year, 2023) }-{ random.randint(fecha.mes, 12) }-{ random.randint(fecha.day, 30) }"
         privacidad = random.choice( [True, False] )
         nombre = ''.join( random.choice( string.ascii_letters ) for i in range(15))
