@@ -87,11 +87,16 @@ def generate_tiene_evento(n):
     #while para sacar una fecha mmenor y que el artista musical pueda participar en el evento
 
     while i < n:
+        evento = random.choice(resc_2)
+        index = random.randint(0,n)
         while True:
-            if resc_1[i][1] < random.choice( resc_2[i][1] ):
+            if resc_1[i][1] < evento[index][1]:
                 break
+            else:
+                evento = random.choice(resc_2)
+                index = random.randint(0,n)
         correo = resc_1[i][0]
-        nombre = resc_2[i][0]
+        nombre = evento[index][0]
         try:
             cursor.execute(f"INSERT INTO TieneEvento(correo, nombre) VALUES ('{correo}', '{nombre}');")
             i += 1
@@ -179,10 +184,15 @@ def generate_almacena_playlist(n):
     resc_2 = cursor.fetchall()
     #falta verificacion de fecha paraabotener fecha menor
     while i < n:
+        playlist = random.choice( resc_1 )
+        index = random.randint(0,n)
         while True:
-            if resc_2[i][1] < random.choice( resc_1[i][1] ):
+            if resc_2[i][1] < playlist[index][1]:
                 break
-        idp = resc_1[i][0]
+            else:
+                playlist = random.choice( resc_1 )
+                index = random.randint(0,n)
+        idp = playlist[index][0]
         idca = resc_2[i][0]
         try:
             cursor.execute(
@@ -341,10 +351,15 @@ def generate_almacena_album(n):
     cursor.execute("SELECT ID, fechaLanzamiento FROM Album;")# verificar que la fecha d ealbum
     resc_2 = cursor.fetchall()
     while i < n:
+        cancion = random.choice( resc_1 )
+        index = random.randint(0,n)
         while True:
-            if resc_2[i][1] > random.choice( resc_1[i][1] ):
+            if resc_2[i][1] <= cancion[index][1] :
                 break
-        idc = resc_1[i][0]
+            else:
+                cancion = random.choice( resc_1 )
+                index = random.randint(0,n)
+        idc = cancion[index][0]        
         ida = resc_2[i][0]
         try:
             cursor.execute(
@@ -364,11 +379,16 @@ def generate_crea_album(n):
     cursor.execute("SELECT ID, fechaLanzamiento FROM Album;") # join
     resc_2 = cursor.fetchall()
     while i < n:
+        album = random.choice( resc_2 )
+        index = random.randint(0,n)
         while True:
-            if resc_1[i][1] > random.choice( resc_2[i][1] ):
-                break    
+            if resc_1[i][1] >= album[index][1] :
+                break
+            else:
+                album = random.choice( resc_2 )
+                index = random.randint(0,n)
         correo = resc_1[i][0]
-        ida = resc_2[i][0]
+        ida = album[index][0]
         try:
             cursor.execute(
                 f"INSERT INTO CreaAlbum( correo, IDA ) VALUES ('{correo}', '{ida}');")
@@ -390,9 +410,14 @@ def generate_crea_cancion(n):
     resc_2 = cursor.fetchall()
     while i < n:
         while True:
-            if random.choice( resc_1[i][1] ) > resc_2[i][1]:
+            user = random.choice( resc_1 )
+            index = random.randint(0,n)
+            if user[index][1] > resc_2[i][1]:
                 break
-        correo = resc_1[i][0]
+            else:
+                user = random.choice( resc_1 )
+                index = random.randint(0,n)
+        correo = user[index][0]
         idc = resc_2[i][0]
         try:
             cursor.execute(
