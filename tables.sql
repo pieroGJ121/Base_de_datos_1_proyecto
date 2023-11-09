@@ -63,12 +63,10 @@ CREATE TABLE Podcast(
 	ID INT PRIMARY KEY,
 	nombre VARCHAR(15),
 	original BOOLEAN,
-	fechaLanzamiento DATE
 );
 
 CREATE TABLE Album(
 	ID INT PRIMARY KEY,
-	fechaLanzamiento DATE
 );
 ALTER TABLE Album ADD CONSTRAINT contenido_fk_id
 FOREIGN KEY (ID) REFERENCES Contenido (ID);
@@ -87,7 +85,6 @@ CREATE TABLE Cancion(
 	ID INT PRIMARY KEY,
 	genero VARCHAR(10),
 	compositor  VARCHAR(15),
-	fechaLanzamiento DATE
 );
 ALTER TABLE Cancion ADD CONSTRAINT ca_fk_id
 FOREIGN KEY (ID) REFERENCES ContenidoAcumulable (ID);
@@ -225,15 +222,3 @@ ALTER TABLE CreaCancion ALTER COLUMN correo SET NOT NULL;
 ALTER TABLE CreaCancion ALTER COLUMN IDC SET NOT NULL;
 ALTER TABLE CreaEpisodio ALTER COLUMN IDP SET NOT NULL;
 ALTER TABLE CreaEpisodio ALTER COLUMN IDE SET NOT NULL;
-
-ALTER TABLE Playlist ADD CONSTRAINT playlist_check_fecha CHECK ( fecha_creacion > (SELECT fecha_creacion FROM Usuario WHERE correo = Playlist.correo));
-
-ALTER TABLE Album ADD CONSTRAINT album_check_fecha CHECK ( fechaLanzamiento > (SELECT fechaLanzamiento FROM ArtistaMusical WHERE correo = (Select correo FROM CreaAlbum WHERE IDA = Album.ID)));
-
-ALTER TABLE Podcast ADD CONSTRAINT podcast_check_fecha CHECK ( fechaLanzamiento > (SELECT fechaLanzamiento FROM ArtistaPodcast WHERE correo = (Select correo FROM CreaEpisodio WHERE IDP = Podcast.ID)));
-
-ALTER TABLE Cancion ADD CONSTRAINT cancion_check_fecha CHECK ( fechaLanzamiento > (SELECT fechaLanzamiento FROM Album WHERE ID = (Select IDC FROM AlmacenaAlbum WHERE IDC = Cancion.ID)));
-
-ALTER TABLE Evento ADD CONSTRAINT evento_check_fecha CHECK ( fecha > (SELECT fecha_creacion FROM Usuario WHERE correo = (Select correo FROM TieneEventos WHERE nombre = Evento.nombre)));
-
-
