@@ -63,6 +63,7 @@ CREATE TABLE Podcast(
 	ID INT PRIMARY KEY,
 	nombre VARCHAR(15),
 	original BOOLEAN,
+	fecha DATE,
 );
 
 CREATE TABLE Album(
