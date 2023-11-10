@@ -1,7 +1,7 @@
 import psycopg2
 import random
 import string
-#import names
+import names
 
 conn = psycopg2.connect(
     database="postgres", user="postgres", password="Kw51XS123.", host="localhost", port="5432", options="-c search_path="
@@ -45,7 +45,6 @@ def generate_artista_musical_from_usuarios(n):
         except Exception as e:
             print(e, i)
 
-
 def generate_evento(n):
     #Jairo
     # En mil, n es como 200 y para cada siguiente schema pones otro 0
@@ -54,7 +53,7 @@ def generate_evento(n):
     resc = cursor.fetchall()
 
     while i < n:
-        id = i +1
+        ide = random.randint(1000,10000)
         nombre = ''.join( random.choice( string.ascii_letters ) for i in range(15))
         lugar = random.choice( 
             ["Belgica", 
@@ -69,16 +68,16 @@ def generate_evento(n):
             "Reino Unido"
             ] 
         )
-        user = resc[i] # cambiar el resc_2[n]
+        user = random.choice( resc ) # cambiar el resc_2[n]
         correo = user[0]
         fecha = user[1]
 
-        fecha_creacion = f"{ random.randint(fecha.year, 2023) }-{ random.randint(fecha.mes, 12) }-{ random.randint(fecha.day, 30) }"
+        fecha_creacion = f"{ random.randint(fecha.year, 2023) }-{ random.randint(fecha.month, 12) }-{ random.randint(fecha.day, 30) }"
     
         try:
             #aritsita musical debe existir para q ocurra el evento
-            cursor.execute( f"INSERT INTO Evento(nombre, lugar, fecha) VALUES ('{id}', '{nombre}', '{lugar}', '{fecha_creacion}');" )
-            cursor.execute( f"INSERT INTO TieneEvento(nombre, lugar, fecha) VALUES ('{correo}', '{nombre}');")
+            cursor.execute( f"INSERT INTO Evento(ID,nombre, fecha, lugar ) VALUES ('{ide}', '{nombre}', '{fecha_creacion}', '{lugar}');" )
+            cursor.execute( f"INSERT INTO TieneEventos(ID) VALUES ('{ide}');")
             i += 1
         except Exception as e:
             print(e, i)
@@ -92,22 +91,22 @@ def generate_tiene_evento(n):
     i = 0
     cursor.execute( "SELECT correo, fecha_creacion FROM ArtistaMusical, Usuario WHERE ArtistaMusical.correo = Usuario.correo;" )
     resc_1 = cursor.fetchall()
-    cursor.execute( "SELECT nombre, fecha FROM Evento;" )
+    cursor.execute( "SELECT ID, fecha FROM Evento;" )
     resc_2 = cursor.fetchall()
     #while para sacar una fecha mmenor y que el artista musical pueda participar en el evento
 
     while i < n:
         evento = random.choice(resc_2)
-        user = resc_1[i]
+        user = random.choice( resc_1 )
         while True:
             if user[1] <= evento[1]:
                 break
             else:
                 evento = random.choice(resc_2)
         correo = user[0]
-        nombre = evento[0]
+        ide = evento[0]
         try:
-            cursor.execute(f"INSERT INTO TieneEvento(correo, nombre) VALUES ('{correo}', '{nombre}');")
+            cursor.execute(f"INSERT INTO TieneEvento(correo, ID) VALUES ('{correo}', '{ide}');")
             i += 1
         except Exception as e:
             print(e, i)
@@ -116,8 +115,6 @@ def generate_red_social():
     #Jairo
     # Este es fijo. Por cada res social principal que encuentres, lo pones. No
     # cambia respecto al schmema. El nombre seria el nombre de la red social
-
-    # aun no esta implementado lo de arriba ^|
     i = 0
     nombre = random.choice( [
             "Facebook", 
@@ -142,8 +139,8 @@ def generate_tiene_red_social(n):
     cursor.execute("SELECT nombre FROM RedSocial;")
     resc_2 = cursor.fetchall()
     while i < n:
-        correo = random.choice( resc_1[0] ) 
-        nombreRed = random.choice( resc_2[0] ) 
+        correo = random.choice( resc_1 )[0] 
+        nombreRed = random.choice( resc_2 )[0] 
         username = ''.join( random.choice( string.ascii_letters ) for i in range(10))
         try:
             cursor.execute(f"INSERT INTO TieneRedes(correo, nombreRed, username) VALUES ('{correo}', '{nombreRed}', '{username}');")
@@ -195,10 +192,10 @@ def generate_almacena_playlist(n):
         playlist = random.choice( resc_1 )
         contenido = random.choice( resc_2 )
         while True:
-            if contenido[1] < playlist[1]:
+            if contenido[1].year <= playlist[1].year and contenido[1].month <= playlist[1].month and contenido[1].day <= playlist[1].day:
                 break
             else:
-                playlist = random.choice( resc_1 )
+                contenido = random.choice( resc_2 )
         idp = playlist[0]
         idca = contenido[0]
         try:
@@ -353,7 +350,7 @@ def generate_almacena_album(n):
     # que posiblemente se demore cambias el 12 por un 8. Si quieres tambien
     # puedes dejarlo por bastante tiempo
     i = 0
-    cursor.execute("SELECT ID, fechaLanzamiento FROM Cancion;") # join con ncontenido apra verificar fecha primero se elige el album y luego la fecha
+    cursor.execute("SELECT ID, fechaLanzamiento FROM Cancion, Contenido WHERE Cancion.ID = Contenido.ID;") # join con ncontenido apra verificar fecha primero se elige el album y luego la fecha
     resc_1 = cursor.fetchall()
     cursor.execute("SELECT ID, fechaLanzamiento FROM Album;")# verificar que la fecha d ealbum
     resc_2 = cursor.fetchall()
@@ -361,7 +358,7 @@ def generate_almacena_album(n):
         cancion = random.choice( resc_1 )
         album = random.choice(resc_2)
         while True:
-            if album[1] <= cancion[1] :
+            if album[1].year <= cancion[1].year and album[1].month <= cancion[1].month and album[1].day <= cancion[1].day :
                 break
             else:
                 cancion = random.choice( resc_1 )
@@ -417,10 +414,10 @@ def generate_crea_cancion(n):
         user = random.choice( resc_1 )
         cancion = random.choice( resc_2 )
         while True:
-            if user[1] > cancion[1]:
+            if user[1].year <= cancion[1].year and user[1].month <= cancion[1].month and user[1].day <= cancion[1].day:
                 break
             else:
-                user = random.choice( resc_1 )
+                cancion = random.choice( resc_2 )
         correo = user[0]
         idc = cancion[0]
         try:
