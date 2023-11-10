@@ -239,15 +239,6 @@ def generate_almacena_playlist(n):
             print(e, i)
 
 
-def make_cancion_correctly():
-    cursor.execute("SELECT ID FROM Cancion;")
-    resc = cursor.fetchall()
-    for idc in resc:
-        cursor.execute(
-            f"INSERT INTO CreaCancion(correo, IDC) VALUES ('{correo}', {idc[0]});"
-        )
-
-
 def generate_cancion(n):
     i = 0
     letters = string.ascii_lowercase
@@ -316,6 +307,9 @@ def generate_cancion(n):
 
             cursor.execute(
                 f"INSERT INTO Cancion(ID, genero, compositor) VALUES ({idc}, '{genre}', '{compositor}');"
+            )
+            cursor.execute(
+                f"INSERT INTO CreaCancion(correo, IDC) VALUES ('{correo}', {idc});"
             )
             i += 1
         except Exception as e:
