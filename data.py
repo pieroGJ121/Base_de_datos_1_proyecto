@@ -510,7 +510,10 @@ def generate_episodio(n):
             )
 
             duracion = (
-                "00:0"
+                "0"
+                + str(random.randint(0, 2))
+                + ":"
+                + str(random.randint(0, 5))
                 + str(random.randint(0, 9))
                 + ":"
                 + str(random.randint(0, 5))
