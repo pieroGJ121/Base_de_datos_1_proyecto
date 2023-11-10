@@ -2,14 +2,27 @@ import psycopg2
 import random
 import string
 import names
+import names
+from faker import Faker
+import datetime
 
 conn = psycopg2.connect(
-    database="postgres", user="postgres", password="Kw51XS123.", host="localhost", port="5432", options="-c search_path="
+    database="bd1_proyecto",
+    user="postgres",
+    password="",
+    host="",
+    port="5432",
+    options="-c search_path=mil",
 )
 
 cursor = conn.cursor()
 
 conn.autocommit = True
+
+fake = Faker()
+
+upper_limit_date = datetime.date(year=2024, month=12, day=30)
+lower_limit_date = datetime.date(year=2018, month=1, day=1)
 
 
 def generate_artista_musical_from_usuarios(n):
@@ -106,7 +119,7 @@ def generate_tiene_evento(n):
         evento = random.choice(resc_2)
         user = random.choice(resc_1)
         while True:
-            if user[1] <= evento[1]:
+            if user[1].strftime("%Y:%m:%d") <= evento[1].strftime("%Y:%m:%d"):
                 break
             else:
                 user = random.choice(resc_1)
@@ -211,7 +224,7 @@ def generate_almacena_playlist(n):
         playlist = random.choice(resc_1)
         contenido = random.choice(resc_2)
         while True:
-            if playlist[1] > contenido[1]:
+            if playlist[1].strftime("%Y:%m:%d") > contenido[1].strftime("%Y:%m:%d"):
                 break
             else:
                 contenido = random.choice(resc_2)
@@ -226,14 +239,27 @@ def generate_almacena_playlist(n):
             print(e, i)
 
 
+def make_cancion_correctly():
+    cursor.execute("SELECT ID FROM Cancion;")
+    resc = cursor.fetchall()
+    for idc in resc:
+        cursor.execute(
+            f"INSERT INTO CreaCancion(correo, IDC) VALUES ('{correo}', {idc[0]});"
+        )
+
+
 def generate_cancion(n):
     i = 0
     letters = string.ascii_lowercase
+    cursor.execute(
+        "SELECT correo, fecha_creacion FROM ArtistaMusical NATURAL JOIN Usuario;"
+    )
+    resam = cursor.fetchall()
     while i < n:
+        artista = random.choice(resam)
+        correo = artista[0]
+        fecha_artista = artista[1]
         idc = random.randint(100, 99999999)
-        year = str(random.randint(2018, 2022))
-        month = str(random.randint(1, 12))
-        day = str(random.randint(1, 27))
         lang = random.choice(
             [
                 "english",
@@ -248,11 +274,9 @@ def generate_cancion(n):
             ]
         )
 
-        if len(month) == 1:
-            month = "0" + month
-        if len(day) == 1:
-            day = "0" + day
-        date = year + "-" + month + "-" + day
+        date = fake.date_between(
+            start_date=fecha_artista, end_date=upper_limit_date.strftime("%Y-%m-%d")
+        )
         nombre = "".join(random.choice(letters) for i in range(10))
 
         try:
@@ -265,6 +289,7 @@ def generate_cancion(n):
                 + str(random.randint(0, 9))
                 + ":"
                 + str(random.randint(0, 5))
+                + ":"
                 + str(random.randint(0, 9))
             )
 
@@ -297,32 +322,21 @@ def generate_cancion(n):
             print(e, i)
 
 
-def make_cancion_correctly():
-    cursor.execute("SELECT ID FROM Cancion;")
-    resc = cursor.fetchall()
-    cursor.execute("SELECT correo FROM ArtistaMusical;")
-    resam = cursor.fetchall()
-    for idc in resc:
-        correo = random.choice(resam)[0]
-        cursor.execute(
-            f"INSERT INTO CreaCancion(correo, IDC) VALUES ('{correo}', {idc[0]});"
-        )
-
-
 def generate_album(n):
     i = 0
     letters = string.ascii_lowercase
     cursor.execute("SELECT ID FROM Cancion;")
     resc = cursor.fetchall()
-    cursor.execute("SELECT correo FROM ArtistaMusical;")
+    cursor.execute(
+        "SELECT correo, fecha_creacion FROM ArtistaMusical NATURAL JOIN Usuario;"
+    )
     resam = cursor.fetchall()
     while i < n:
         idca = random.choice(resc)[0]
-        correo = random.choice(resam)[0]
+        artista = random.choice(resam)
+        correo = artista[0]
+        fecha_artista = artista[1]
         idc = random.randint(100, 999999999)
-        year = str(random.randint(2018, 2022))
-        month = str(random.randint(1, 12))
-        day = str(random.randint(1, 27))
         lang = random.choice(
             [
                 "english",
@@ -337,11 +351,9 @@ def generate_album(n):
             ]
         )
 
-        if len(month) == 1:
-            month = "0" + month
-        if len(day) == 1:
-            day = "0" + day
-        date = year + "-" + month + "-" + day
+        date = fake.date_between(
+            start_date=fecha_artista, end_date=upper_limit_date.strftime("%Y-%m-%d")
+        )
         nombre = "".join(random.choice(letters) for i in range(10))
 
         try:
@@ -382,7 +394,7 @@ def generate_almacena_album(n):
         cancion = random.choice(resc_1)
         album = random.choice(resc_2)
         while True:
-            if album[1] <= cancion[1]:
+            if album[1].strftime("%Y:%m:%d") <= cancion[1].strftime("%Y:%m:%d"):
                 break
             else:
                 cancion = random.choice(resc_1)
@@ -415,7 +427,7 @@ def generate_crea_album(n):
         album = random.choice(resc_2)
         user = random.choice(resc_1)
         while True:
-            if user[1] >= album[1]:
+            if user[1].strftime("%Y:%m:%d") >= album[1].strftime("%Y:%m:%d"):
                 break
             else:
                 album = random.choice(resc_2)
@@ -449,7 +461,7 @@ def generate_crea_cancion(n):
         user = random.choice(resc_1)
         cancion = random.choice(resc_2)
         while True:
-            if user[1] <= cancion[1]:
+            if user[1].strftime("%Y:%m:%d") <= cancion[1].strftime("%Y:%m:%d"):
                 break
             else:
                 cancion = random.choice(resc_2)
@@ -467,14 +479,16 @@ def generate_crea_cancion(n):
 def generate_episodio(n):
     i = 0
     letters = string.ascii_lowercase
-    cursor.execute("SELECT ID FROM Podcast;")
+    cursor.execute("SELECT ID, fecha FROM Podcast;")
     res = cursor.fetchall()
     while i < n:
-        idp = random.choice(res)[0]
+        podcast = random.choice(res)
+        idp = podcast[0]
+        fecha_podcast = podcast[1]
         idc = random.randint(100, 99999999)
-        year = str(random.randint(2018, 2022))
-        month = str(random.randint(1, 12))
-        day = str(random.randint(1, 27))
+        date = fake.date_between(
+            start_date=fecha_podcast, end_date=upper_limit_date.strftime("%Y-%m-%d")
+        )
         lang = random.choice(
             [
                 "english",
@@ -488,11 +502,6 @@ def generate_episodio(n):
                 "bengali",
             ]
         )
-        if len(month) == 1:
-            month = "0" + month
-        if len(day) == 1:
-            day = "0" + day
-        date = year + "-" + month + "-" + day
         nombre = "".join(random.choice(letters) for i in range(10))
 
         try:
