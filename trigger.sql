@@ -28,6 +28,10 @@ RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE TRIGGER trigger_actualizarTieneEventos
+ AFTER INSERT ON TieneEventos
+FOR EACH ROW EXECUTE FUNCTION ActualizarTieneEventos();
+
 -- Deletes the inserted object if the date of creation of the song is after the ArtistaMusical
 CREATE OR REPLACE FUNCTION ActualizarAlmacenaAlbumC() RETURNS TRIGGER AS
 $$
@@ -41,6 +45,10 @@ RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE TRIGGER trigger_actualizarAlmacenaAlbumC
+ AFTER INSERT ON AlmacenaAlbum
+FOR EACH ROW EXECUTE FUNCTION ActualizarAlmacenaAlbumC();
+
 -- Deletes the inserted object if the date of creation of the episodio is after the ArtistaMusical
 CREATE OR REPLACE FUNCTION ActualizarCreaEpisodio() RETURNS TRIGGER AS
 $$
@@ -53,3 +61,24 @@ END IF;
 RETURN NEW;
 END;
 $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER trigger_actualizarCreaEpisodio
+ AFTER INSERT ON CreaEpisodio
+FOR EACH ROW EXECUTE FUNCTION ActualizarCreaEpisodio();
+
+-- Deletes the inserted object if the date of creation of the PlayList is after the User that created it
+CREATE OR REPLACE FUNCTION ActualizarCreaPLaylist() RETURNS TRIGGER AS
+$$
+BEGIN
+IF((SELECT fecha_creacion FROM Playlist WHERE ID=NEW.ID) <
+(SELECT fecha_creacion FROM usuario WHERE correo=NEW.correo))
+THEN
+DELETE FROM CreaPlaylist CP WHERE CP.correo=NEW.correo AND CP.ID=NEW.ID;
+END IF;
+RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER trigger_actualizarCreaPlaylist
+ AFTER INSERT ON CreaPlaylist
+FOR EACH ROW EXECUTE FUNCTION ActualizarCreaPlaylist();
