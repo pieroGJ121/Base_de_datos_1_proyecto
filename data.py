@@ -59,15 +59,44 @@ def generate_artista_musical_from_usuarios(n):
             print(e, i)
 
 
+def generate_podcast(n):
+    # Only use when there is data in usuarios
+    i = 0
+    letters = string.ascii_lowercase
+    cursor.execute(
+        "SELECT correo, fecha_creacion FROM ArtistaPodcast NATURAL JOIN Usuario;"
+    )
+    resc = cursor.fetchall()
+    while i < n:
+        idp = random.randint(100, 2147483645)
+        artista = random.choice(resc)
+        correo = artista[0]
+        fecha = artista[1]
+        date = fake.date_between(start_date=fecha, end_date=upper_limit_date).strftime(
+            "%Y-%m-%d"
+        )
+        nombre = names.get_first_name()
+        original = bool(random.getrandbits)
+        try:
+            cursor.execute(
+                f"INSERT INTO Podcast(ID, nombre, original, fecha) VALUES ('{idp}', '{nombre}', {original}, '{date}');"
+            )
+            i += 1
+        except Exception as e:
+            print(e, i)
+
+
 def generate_evento(n):
     # Jairo
     # En mil, n es como 200 y para cada siguiente schema pones otro 0
     i = 0
-    cursor.execute("SELECT correo, fecha_creacion FROM ArtistaMusical;")
+    cursor.execute(
+        "SELECT correo, fecha_creacion FROM ArtistaMusical NATURAL JOIN USUARIO;"
+    )
     resc = cursor.fetchall()
 
     while i < n:
-        ide = random.randint(100, 99999999)
+        ide = random.randint(100, 2147483645)
         nombre = "".join(random.choice(string.ascii_letters) for i in range(15))
         lugar = random.choice(
             [
