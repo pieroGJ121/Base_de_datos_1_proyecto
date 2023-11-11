@@ -568,3 +568,143 @@ def generate_episodio(n):
             i += 1
         except Exception as e:
             print(e, i)
+
+
+def create_mil():
+    conn = psycopg2.connect(
+        database="bd1_proyecto",
+        user="postgres",
+        password="",
+        host="",
+        port="5432",
+        options="-c search_path=mil",
+    )
+
+    global cursor
+    cursor = conn.cursor()
+
+    conn.autocommit = True
+
+    # Executed beforehand
+    generate_cancion(650)
+    generate_crea_cancion(220)
+    generate_album(70)
+    generate_almacena_album(400)
+    generate_crea_album(30)
+
+    generate_podcast(80)
+    generate_episodio(330)
+
+    # generate_evento(200)
+    # generate_tiene_evento(300)
+
+    # generate_red_social()
+    # generate_tiene_red_social(300)
+
+    generate_playlist(400)
+    generate_almacena_playlist(640)
+
+
+def create_diezmil():
+    conn = psycopg2.connect(
+        database="bd1_proyecto",
+        user="postgres",
+        password="",
+        host="",
+        port="5432",
+        options="-c search_path=diezmil",
+    )
+
+    global cursor
+    cursor = conn.cursor()
+
+    conn.autocommit = True
+
+    # generate_cancion(650 * 10)
+    # generate_crea_cancion(220 * 10)
+    generate_album(70 * 10)
+    generate_almacena_album(400 * 10)
+    generate_crea_album(30 * 10)
+
+    generate_podcast(80 * 10)
+    generate_episodio(330 * 10)
+
+    generate_evento(200 * 10)
+    generate_tiene_evento(450 * 10)
+
+    # generate_red_social()
+    # generate_tiene_red_social(300 * 10)
+
+    generate_playlist(400 * 10)
+    generate_almacena_playlist(640 * 10)
+
+
+def create_cienmil():
+    conn = psycopg2.connect(
+        database="bd1_proyecto",
+        user="postgres",
+        password="",
+        host="",
+        port="5432",
+        options="-c search_path=cienmil",
+    )
+
+    global cursor
+    cursor = conn.cursor()
+
+    conn.autocommit = True
+
+    generate_cancion(650 * 100)
+    generate_crea_cancion(220 * 100)
+    generate_album(70 * 100)
+    generate_almacena_album(400 * 100)
+    generate_crea_album(30 * 100)
+
+    generate_podcast(80 * 100)
+    generate_episodio(330 * 100)
+
+    generate_evento(200 * 100)
+    generate_tiene_evento(450 * 100)
+
+    generate_red_social()
+    generate_tiene_red_social(300 * 100)
+
+    generate_playlist(400 * 100)
+    generate_almacena_playlist(640 * 100)
+
+
+def create_milllon():
+    conn = psycopg2.connect(
+        database="bd1_proyecto",
+        user="postgres",
+        password="",
+        host="",
+        port="5432",
+        options="-c search_path=millon",
+    )
+
+    global cursor
+    cursor = conn.cursor()
+
+    conn.autocommit = True
+
+    generate_cancion(650 * 1000)
+    generate_crea_cancion(220 * 1000)
+    generate_album(70 * 1000)
+    generate_almacena_album(350 * 1000)
+    generate_crea_album(30 * 1000)
+
+    generate_podcast(80 * 1000)
+    generate_episodio(330 * 1000)
+
+    generate_evento(200 * 1000)
+    generate_tiene_evento(450 * 1000)
+
+    generate_red_social()
+    generate_tiene_red_social(200 * 1000)
+
+    generate_playlist(400 * 1000)
+    generate_almacena_playlist(600 * 1000)
+
+
+# Falta el almacena y crea  de album, y el almacena de playlist
