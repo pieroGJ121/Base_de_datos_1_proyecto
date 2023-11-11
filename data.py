@@ -116,14 +116,18 @@ def generate_evento(n):
         correo = user[0]
         fecha = user[1]
 
-        fecha_creacion = f"{ random.randint(fecha.year, 2023) }-{ random.randint(fecha.month, 12) }-{ random.randint(fecha.day, 30) }"
+        date = fake.date_between(start_date=fecha, end_date=upper_limit_date).strftime(
+            "%Y-%m-%d"
+        )
 
         try:
             # aritsita musical debe existir para q ocurra el evento
             cursor.execute(
-                f"INSERT INTO Evento(ID,nombre, fecha, lugar ) VALUES ('{ide}', '{nombre}', '{fecha_creacion}', '{lugar}');"
+                f"INSERT INTO Evento(ID,nombre, fecha, lugar ) VALUES ('{ide}', '{nombre}', '{date}', '{lugar}');"
             )
-            cursor.execute(f"INSERT INTO TieneEventos(ID) VALUES ('{ide}');")
+            cursor.execute(
+                f"INSERT INTO TieneEventos(correo, ID) VALUES ('{correo}', '{ide}');"
+            )
             i += 1
         except Exception as e:
             print(e, i)
@@ -152,11 +156,12 @@ def generate_tiene_evento(n):
                 break
             else:
                 user = random.choice(resc_1)
+                evento = random.choice(resc_2)
         correo = user[0]
         ide = evento[0]
         try:
             cursor.execute(
-                f"INSERT INTO TieneEvento(correo, ID) VALUES ('{correo}', '{ide}');"
+                f"INSERT INTO TieneEventos(correo, ID) VALUES ('{correo}', '{ide}');"
             )
             i += 1
         except Exception as e:
@@ -168,16 +173,18 @@ def generate_red_social():
     # Este es fijo. Por cada res social principal que encuentres, lo pones. No
     # cambia respecto al schmema. El nombre seria el nombre de la red social
     i = 0
-    nombre = random.choice(
-        [
-            "Facebook",
-            "Youtube",
-            "Instagram",
-            "TikTok",
-            "Twitter",
-            "SoundCloud",
-        ]
-    )
+    nombre = [
+        "Facebook",
+        "Youtube",
+        "Instagram",
+        "TikTok",
+        "Twitter",
+        "SoundCloud",
+        "Bandcamp",
+        "LoudUp",
+        "Discord",
+        "Threads",
+    ]
     for i in nombre:
         cursor.execute(f"INSERT INTO RedSocial(nombre) VALUES ('{i}');")
 
@@ -216,18 +223,20 @@ def generate_playlist(n):
     cursor.execute("SELECT correo, fecha_creacion FROM Usuario;")
     resc = cursor.fetchall()
     while i < n:
-        id = random.randint(100, 99999999)
+        id = random.randint(100, 2147483645)
         user = random.choice(resc)
         correo = user[0]
         fecha = user[1]
-        fecha_creacion = f"{ random.randint(fecha.year, 2023) }-{ random.randint(fecha.mes, 12) }-{ random.randint(fecha.day, 30) }"
+        date = fake.date_between(start_date=fecha, end_date=upper_limit_date).strftime(
+            "%Y-%m-%d"
+        )
         privacidad = random.choice([True, False])
         nombre = "".join(random.choice(string.ascii_letters) for i in range(15))
         descripcion = "".join(random.choice(string.ascii_letters) for i in range(40))
 
         try:
             cursor.execute(
-                f"INSERT INTO Playlist(ID, correo, fecha_creacion, privacidad, nombre, descripcion) VALUES ({id}, '{correo}', '{fecha_creacion}', {privacidad}, '{nombre}', '{descripcion}');"
+                f"INSERT INTO Playlist(ID, correo, fecha_creacion, privacidad, nombre, descripcion) VALUES ({id}, '{correo}', '{date}', {privacidad}, '{nombre}', '{descripcion}');"
             )
             i += 1
         except Exception as e:
@@ -257,11 +266,12 @@ def generate_almacena_playlist(n):
                 break
             else:
                 contenido = random.choice(resc_2)
+                playlist = random.choice(resc_1)
         idp = playlist[0]
         idca = contenido[0]
         try:
             cursor.execute(
-                f"INSERT INTO AlmacenaPlaylist( IDP, IDCA ) VALUES ('{idp}', '{idca}');"
+                f"INSERT INTO AlmacenaPlaylist(IDP, IDCA) VALUES ('{idp}', '{idca}');"
             )
             i += 1
         except Exception as e:
@@ -279,7 +289,7 @@ def generate_cancion(n):
         artista = random.choice(resam)
         correo = artista[0]
         fecha_artista = artista[1]
-        idc = random.randint(100, 99999999)
+        idc = random.randint(100, 2147483645)
         lang = random.choice(
             [
                 "english",
@@ -295,8 +305,8 @@ def generate_cancion(n):
         )
 
         date = fake.date_between(
-            start_date=fecha_artista, end_date=upper_limit_date.strftime("%Y-%m-%d")
-        )
+            start_date=fecha_artista, end_date=upper_limit_date
+        ).strftime("%Y-%m-%d")
         nombre = "".join(random.choice(letters) for i in range(10))
 
         try:
@@ -359,7 +369,7 @@ def generate_album(n):
         artista = random.choice(resam)
         correo = artista[0]
         fecha_artista = artista[1]
-        idc = random.randint(100, 999999999)
+        idc = random.randint(100, 2147483645)
         lang = random.choice(
             [
                 "english",
@@ -375,8 +385,8 @@ def generate_album(n):
         )
 
         date = fake.date_between(
-            start_date=fecha_artista, end_date=upper_limit_date.strftime("%Y-%m-%d")
-        )
+            start_date=fecha_artista, end_date=upper_limit_date
+        ).strftime("%Y-%m-%d")
         nombre = "".join(random.choice(letters) for i in range(10))
 
         try:
@@ -421,6 +431,7 @@ def generate_almacena_album(n):
                 break
             else:
                 cancion = random.choice(resc_1)
+                album = random.choice(resc_2)
         idc = cancion[0]
         ida = album[0]
         try:
@@ -454,6 +465,7 @@ def generate_crea_album(n):
                 break
             else:
                 album = random.choice(resc_2)
+                user = random.choice(resc_1)
         correo = user[0]
         ida = album[0]
         try:
@@ -488,11 +500,12 @@ def generate_crea_cancion(n):
                 break
             else:
                 cancion = random.choice(resc_2)
+                user = random.choice(resc_1)
         correo = user[0]
         idc = cancion[0]
         try:
             cursor.execute(
-                f"INSERT INTO AlmacenaPlaylist( IDC, IDA ) VALUES ('{correo}', '{idc}');"
+                f"INSERT INTO CreaCancion(correo, idc ) VALUES ('{correo}', '{idc}');"
             )
             i += 1
         except Exception as e:
@@ -508,10 +521,10 @@ def generate_episodio(n):
         podcast = random.choice(res)
         idp = podcast[0]
         fecha_podcast = podcast[1]
-        idc = random.randint(100, 99999999)
+        idc = random.randint(100, 2147483645)
         date = fake.date_between(
-            start_date=fecha_podcast, end_date=upper_limit_date.strftime("%Y-%m-%d")
-        )
+            start_date=fecha_podcast, end_date=upper_limit_date
+        ).strftime("%Y-%m-%d")
         lang = random.choice(
             [
                 "english",
