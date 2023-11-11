@@ -1,5 +1,13 @@
 -- P1
-SELECT
+SELECT DISTINCT Evento.Id, Evento.nombre
+FROM Evento NATURAL JOIN tieneEventos
+Natural JOIN CreaAlbum JOIN Contenido ON CreaAlbum.ida = Contenido.id
+WHERE (lugar = 'Miami'
+OR lugar = 'California' OR lugar = 'Las Vegas' OR lugar = 'Chicago') AND
+ABS(fecha - fechaLanzamiento) <= 180 AND IDA IN
+(SELECT IDA FROM AlmacenaAlbum GROUP BY IDA HAVING COUNT(*) >= 5)
+AND correo IN
+(SELECT correo FROM TieneRedes GROUP BY correo HAVING COUNT(*) >= 4);
 -- P2
 -- P3
 SELECT DISTINCT correo, username FROM Participa NATURAL JOIN Usuario WHERE IDP IN (SELECT IDP FROM
