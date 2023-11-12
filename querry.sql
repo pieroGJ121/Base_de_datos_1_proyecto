@@ -8,10 +8,8 @@ ABS(fecha - fechaLanzamiento) <= 180 AND IDA IN
 (SELECT IDA FROM AlmacenaAlbum GROUP BY IDA HAVING COUNT(*) >= 5)
 AND correo IN
 (SELECT correo FROM TieneRedes GROUP BY correo HAVING COUNT(*) >= 4);
--- P2
 
--- First find the usuario with the artist throught playlist, then
--- find the usuario with the artist throught favoritos. Do join on both columns and
+-- P2
 SELECT DISTINCT correo FROM
 (SELECT correo_artista, correo FROM
 (SELECT idc as id, correo as correo_artista FROM CreaCancion
