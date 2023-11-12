@@ -30,10 +30,10 @@ VACUUM FULL ContenidoAcumulable;
 
 -- Con indice
 -- Se activan de vuelta. Creo que se debe hacer en cada schema
-SET enable_mergejoin to OFF;
-SET enable_hashjoin to OFF;
-SET enable_bitmapscan to OFF;
-SET enable_sort to OFF;
+SET enable_mergejoin to ON;
+SET enable_hashjoin to ON;
+SET enable_bitmapscan to ON;
+SET enable_sort to ON;
 -- P1
 CREATE INDEX index_evento on Evento USING hash(lugar)
 -- P2
