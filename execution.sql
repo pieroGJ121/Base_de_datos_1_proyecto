@@ -37,7 +37,8 @@ SET enable_sort to ON;
 -- P1
 CREATE INDEX index_evento on Evento USING hash(lugar)
 -- P2
-CREATE INDEX index_evento on Usuario USING hash(tipo_suscripcion)
+CREATE INDEX index_evento on Contenido USING hash(lenguaje)
+CREATE INDEX index_evento on Usuario USING btree(fecha_creacion)
 -- P3
 CREATE INDEX index_evento on Podcast USING btree(fecha)
 CREATE INDEX index_evento on ContenidoAcumulable USING btree(duracion)
