@@ -11,25 +11,16 @@ AND correo IN
 
 -- P2
 SELECT DISTINCT correo FROM
-(SELECT correo_artista, correo FROM
-(SELECT idc as id, correo as correo_artista FROM CreaCancion
-UNION
-SELECT Episodio.id as id, correo AS correo_artista FROM Episodio
-JOIN Podcast ON Episodio.idp = Podcast.id JOIN Participa ON Podcast.id = Participa.idp
-) Artistas JOIN
-Favoritos ON Artistas.id = Favoritos.id WHERE correo IN
-(SELECT correo From Usuario WHERE tipo_suscripcion = true)
+(SELECT id, correo FROM Favoritos WHERE ID IN
+(SELECT id FROM Contenido WHERE
+lenguaje = 'spanish' OR lenguaje = 'japanese' OR lenguaje = 'chinese' OR lenguaje = 'hinde' OR lenguaje = 'portuguese')
 INTERSECT
-SELECT correo_artista, correo FROM
-(SELECT idc as id, correo as correo_artista FROM CreaCancion
-UNION
-SELECT Episodio.id as id, correo AS correo_artista FROM Episodio
-JOIN Podcast ON Episodio.idp = Podcast.id JOIN Participa ON Podcast.id = Participa.idp
-) Artistas JOIN
-AlmacenaPlaylist ON Artistas.id = AlmacenaPlaylist.idca
-JOIN Playlist ON AlmacenaPlaylist.idp = Playlist.id
-WHERE correo IN
-(SELECT correo From Usuario WHERE tipo_suscripcion = true)) ende;
+SELECT idca as id, correo FROM Playlist JOIN AlmacenaPlaylist ON Playlist.id = AlmacenaPlaylist.IDP
+WHERE ID IN
+(SELECT id FROM Contenido WHERE
+lenguaje = 'spanish' OR lenguaje = 'japanese' OR lenguaje = 'chinese' OR lenguaje = 'hinde' OR lenguaje = 'portuguese')
+)
+ende NATURAL JOIN Usuario WHERE tipo_suscripcion = true AND fecha_creacion > '2020-01-01';
 
 -- P3
 SELECT DISTINCT correo, username FROM Participa NATURAL JOIN Usuario WHERE IDP IN (SELECT IDP FROM
