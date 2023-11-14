@@ -14,12 +14,11 @@ VACUUM FULL Contenido;
 VACUUM FULL AlmacenaAlbum;
 VACUUM FULL TieneRedes;
 -- P2
-VACUUM FULL CreaCancion;
-VACUUM FULL Episodio;
-VACUUM FULL Podcast;
-VACUUM FULL Participa;
-VACUUM FULL Favoritos;
 VACUUM FULL Usuario;
+VACUUM FULL Favoritos;
+VACUUM FULL Contenido;
+VACUUM FULL Playlist;
+VACUUM FULL AlmacenaPlaylist;
 -- P3
 VACUUM FULL Participa;
 VACUUM FULL Usuario;
